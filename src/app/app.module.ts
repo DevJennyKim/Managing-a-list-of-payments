@@ -4,31 +4,33 @@ import { MatTableModule } from '@angular/material/table';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { PaymentListComponentComponent } from './components/payment-list-component/payment-list-component.component';
-import { PaymentDetailsComponentComponent } from './components/payment-details-component/payment-details-component.component';
-import { AddPaymentComponentComponent } from './components/add-payment-component/add-payment-component.component';
-import { EditPaymentComponentComponent } from './components/edit-payment-component/edit-payment-component.component';
+import { PaymentListComponent } from './components/payment-list/payment-list.component';
+import { PaymentDetailsComponent } from './components/payment-details/payment-details.component';
+import { AddPaymentComponent } from './components/add-payment/add-payment.component';
+import { EditPaymentComponent } from './components/edit-payment/edit-payment.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainPageComponent } from './pages/main-page/main-page.component';
 import { HeaderComponent } from './components/header/header.component';
-import { SearchComponentComponent } from './components/search-component/search-component.component';
+import { SearchComponent } from './components/search/search.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PaymentListComponentComponent,
-    PaymentDetailsComponentComponent,
-    AddPaymentComponentComponent,
-    EditPaymentComponentComponent,
+    PaymentListComponent,
+    PaymentDetailsComponent,
+    AddPaymentComponent,
+    EditPaymentComponent,
     MainPageComponent,
     HeaderComponent,
-    SearchComponentComponent,
+    SearchComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatTableModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
