@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { PaymentRecord } from 'src/app/model/type.model';
 
@@ -16,11 +16,13 @@ export class MainPageComponent implements OnInit {
   pageRange: number[] = [];
   pageStart = 1;
   pageEnd = 10;
+  isMobile = false;
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private ngZone: NgZone) {}
 
   ngOnInit(): void {
     this.fetchPayments();
+    this.detectMobileView();
   }
 
   fetchPayments(): void {
@@ -33,6 +35,23 @@ export class MainPageComponent implements OnInit {
         this.updatePageRange();
       });
   }
+
+  detectMobileView(): void {
+    const mediaQuery = window.matchMedia('(max-width: 768px)');
+    this.isMobile = mediaQuery.matches;
+    console.log('Initial isMobile:', this.isMobile);
+    this.pageEnd = this.isMobile ? 3 : 10;
+    this.updatePageRange();
+    mediaQuery.addEventListener('change', (event) => {
+      this.ngZone.run(() => {
+        this.isMobile = event.matches;
+        console.log('Updated isMobile:', this.isMobile);
+        this.pageEnd = this.isMobile ? 3 : 10;
+        this.updatePageRange();
+      });
+    });
+  }
+
   updatePageRange(): void {
     const rangeStart = Math.max(1, this.pageStart);
     const rangeEnd = Math.min(this.totalPages, this.pageEnd);
@@ -49,16 +68,18 @@ export class MainPageComponent implements OnInit {
 
   goToPrevious(): void {
     if (this.pageStart > 1) {
-      this.pageStart -= 10;
-      this.pageEnd -= 10;
+      const decrement = this.isMobile ? 3 : 10;
+      this.pageStart -= decrement;
+      this.pageEnd -= decrement;
       this.updatePageRange();
     }
   }
 
   goToNext(): void {
     if (this.pageEnd < this.totalPages) {
-      this.pageStart += 10;
-      this.pageEnd += 10;
+      const increment = this.isMobile ? 3 : 10;
+      this.pageStart += increment;
+      this.pageEnd += increment;
       this.updatePageRange();
     }
   }
