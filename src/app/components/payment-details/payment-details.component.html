@@ -1,0 +1,67 @@
+<div
+  class="modal fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center"
+  *ngIf="isOpen"
+  (click)="close()"
+>
+  <div
+    class="modal__content bg-white rounded-lg p-6 shadow-lg w-full max-w-lg"
+    (click)="$event.stopPropagation()"
+  >
+    <h1 class="text-3xl font-semibold text-gray-800 mb-6">Payment Details</h1>
+
+    <div class="bg-gray-50 p-4 rounded-lg mb-6">
+      <h2 class="text-xl font-semibold text-gray-700 mb-4">Information</h2>
+      <p class="mb-2">
+        <strong>Name:</strong> {{ payment.payee_first_name }}
+        {{ payment.payee_last_name }}
+      </p>
+      <p class="mb-2">
+        <strong>Status:</strong> {{ payment.payee_payment_status }}
+      </p>
+      <p class="mb-2">
+        <strong>Added date:</strong> {{ payment.payee_added_date_utc }}
+      </p>
+      <p class="mb-2">
+        <strong>Due Date:</strong> {{ payment.payee_due_date }}
+      </p>
+      <p class="mb-2">
+        <strong>Address:</strong> {{ payment.payee_address_line_1 }}
+        {{ payment.payee_address_line_2 }}
+      </p>
+      <p class="mb-2">
+        <strong>Location:</strong> {{ payment.payee_city }},
+        {{ payment.payee_province_or_state }}, {{ payment.payee_country }},
+        {{ payment.payee_postal_code }}
+      </p>
+      <p class="mb-2">
+        <strong>Phone:</strong> +{{ payment.payee_phone_number }}
+      </p>
+      <p class="mb-2"><strong>Email:</strong> {{ payment.payee_email }}</p>
+    </div>
+
+    <div class="bg-gray-100 p-4 rounded-lg">
+      <h2 class="text-xl font-semibold text-gray-700 mb-4">Payment Details</h2>
+      <p class="mb-2">
+        <strong>Discount:</strong> {{ payment.discount_percent }}%
+      </p>
+      <p class="mb-2"><strong>Tax:</strong> {{ payment.tax_percent }}%</p>
+      <p class="mb-2">
+        <strong>Due Amount:</strong>
+        {{ payment.due_amount | formatCurrency : payment.currency }}
+      </p>
+      <p class="mb-4">
+        <strong>Total Due:</strong>
+        {{ payment.total_due | formatCurrency : payment.currency }}
+      </p>
+    </div>
+
+    <div class="flex justify-end mt-6">
+      <button
+        (click)="close()"
+        class="bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-blue-600 focus:outline-none transition ease-in-out duration-300 transform hover:scale-105"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+</div>
