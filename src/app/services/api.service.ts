@@ -26,7 +26,7 @@ export class ApiService {
     );
   }
 
-  loadCity(countryCode: string, state: string): Observable<any> {
+  loadCities(countryCode: string, state: string): Observable<any> {
     const body = {
       country: countryCode,
       state: state,

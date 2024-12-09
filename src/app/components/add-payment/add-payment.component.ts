@@ -149,7 +149,6 @@ export class AddPaymentComponent {
   }
   loadStates(countryCode: string): void {
     this.apiService.loadStates(countryCode).subscribe((response: any) => {
-      console.log('API Response:', response);
       this.states = response.data.states;
       const country = response.data.find(
         (item: any) => item.iso2 === countryCode
@@ -177,12 +176,46 @@ export class AddPaymentComponent {
     const selectedValue = event;
     console.log('Selected Value:', selectedValue);
     if (fieldId === 'payee_country') {
+      console.log('country');
+
       this.onCountryChange(selectedValue);
+    } else if (fieldId === 'payee_state') {
+      console.log('state');
+      this.onStateChange(selectedValue);
     }
   }
 
   onCountryChange(selectedCountryCode: string): void {
     this.loadStates(selectedCountryCode);
+    if (this.paymentForm.get('payee_state')?.value) {
+      this.loadCities(
+        selectedCountryCode,
+        this.paymentForm.get('payee_state')?.value
+      );
+    }
+  }
+
+  onStateChange(selectedState: string): void {
+    const country = this.paymentForm.get('payee_country')?.value;
+    console.log('country: ', country, 'selectedState: ', selectedState);
+    if (country && selectedState) {
+      this.loadCities(country, selectedState);
+    }
+  }
+
+  loadCities(country: string, state: string): void {
+    this.apiService.loadCities(country, state).subscribe((response: any) => {
+      console.log('Cities:', response);
+      const cityField = this.inputFields.find(
+        (field) => field.id === 'payee_city'
+      );
+      if (cityField) {
+        cityField.items = response.data.map((city: string) => ({
+          id: city,
+          name: city,
+        }));
+      }
+    });
   }
 
   getControl(fieldId: string): FormControl {
