@@ -20,6 +20,9 @@ import {
 } from '@angular/common/http';
 import { FormatCurrencyPipe } from './shared/format-currency.pipe';
 import { InputFieldComponent } from './components/input-field/input-field.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -43,6 +46,9 @@ import { InputFieldComponent } from './components/input-field/input-field.compon
     ReactiveFormsModule,
     MatTableModule,
     NgSelectModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatOptionModule,
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
 })

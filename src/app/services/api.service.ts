@@ -17,12 +17,7 @@ export class ApiService {
     );
   }
   loadCountries(): Observable<any> {
-    const response = this.http.get(
-      'https://countriesnow.space/api/v0.1/countries'
-    );
-    console.log(response);
-
-    return response;
+    return this.http.get('https://countriesnow.space/api/v0.1/countries');
   }
 
   loadStates(countryCode: string): Observable<any> {

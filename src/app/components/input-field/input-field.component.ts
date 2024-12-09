@@ -11,11 +11,11 @@ export class InputFieldComponent {
   @Input() label!: string;
   @Input() type: string = 'text';
   @Input() placeholder!: string;
-  @Input() control!: AbstractControl;
+  @Input() control!: FormControl;
   @Input() items: any[] = [];
   @Input() isLoading: boolean = false;
 
   onSelectChange(event: any) {
-    console.log('Selected value: ', event);
+    const selectedItem = event.value;
   }
 }

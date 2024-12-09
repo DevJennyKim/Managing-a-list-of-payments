@@ -2,7 +2,7 @@
   <h1 class="text-4xl font-bold mb-8 text-center text-gray-800">
     Create Payment
   </h1>
-  <form [formGroup]="paymentForm" class="space-y-6">
+  <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()" appearance="outline">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <pay-input-field
         *ngFor="let field of inputFields"
@@ -10,7 +10,9 @@
         [label]="field.label"
         [placeholder]="field.placeholder"
         [type]="field.type"
-        [control]="paymentForm.get(field.id)!"
+        [control]="getControl(field.id)"
+        [items]="field.items || []"
+        (selectionChange)="onFieldChange(field.id, $event)"
       ></pay-input-field>
     </div>
 
