@@ -5,7 +5,10 @@
     [payments]="payments"
     [currentPage]="currentPage"
     [totalPages]="totalPages"
+    [pageRange]="pageRange"
     (pageChanged)="onPageChanged($event)"
+    (prevPage)="goToPrevious()"
+    (nextPage)="goToNext()"
     class="payment-list-container"
   ></pay-payment-list>
 </div>

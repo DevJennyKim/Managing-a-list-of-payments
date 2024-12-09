@@ -13,6 +13,9 @@ export class MainPageComponent implements OnInit {
   totalPages: number = 1;
   totalItems: number = 0;
   limit: number = 20;
+  pageRange: number[] = [];
+  pageStart = 1;
+  pageEnd = 10;
 
   constructor(private apiService: ApiService) {}
 
@@ -27,11 +30,36 @@ export class MainPageComponent implements OnInit {
         this.payments = data.payments;
         this.totalItems = data.totalItems;
         this.totalPages = Math.ceil(this.totalItems / this.limit);
+        this.updatePageRange();
       });
+  }
+  updatePageRange(): void {
+    const rangeStart = Math.max(1, this.pageStart);
+    const rangeEnd = Math.min(this.totalPages, this.pageEnd);
+    this.pageRange = Array.from(
+      { length: rangeEnd - rangeStart + 1 },
+      (_, i) => rangeStart + i
+    );
   }
 
   onPageChanged(page: number): void {
     this.currentPage = page;
     this.fetchPayments();
+  }
+
+  goToPrevious(): void {
+    if (this.pageStart > 1) {
+      this.pageStart -= 10;
+      this.pageEnd -= 10;
+      this.updatePageRange();
+    }
+  }
+
+  goToNext(): void {
+    if (this.pageEnd < this.totalPages) {
+      this.pageStart += 10;
+      this.pageEnd += 10;
+      this.updatePageRange();
+    }
   }
 }
