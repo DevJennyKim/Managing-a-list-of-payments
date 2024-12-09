@@ -16,4 +16,22 @@ export class ApiService {
       `${this.apiUrl}?page=${page}&limit=${limit}`
     );
   }
+  loadCountries(): Observable<any> {
+    const response = this.http.get(
+      'https://countriesnow.space/api/v0.1/countries'
+    );
+    console.log(response);
+
+    return response;
+  }
+
+  loadStates(countryCode: string): Observable<any> {
+    return this.http.get(
+      `https://countriesnow.space/api/v0.1/countries/states?country=${countryCode}`
+    );
+  }
+
+  loadCurrencies(): Observable<any> {
+    return this.http.get('https://api.exchangerate-api.com/v4/latest/USD');
+  }
 }
