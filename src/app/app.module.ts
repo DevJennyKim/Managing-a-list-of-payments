@@ -12,29 +12,22 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainPageComponent } from './pages/main-page/main-page.component';
 import { HeaderComponent } from './components/header/header.component';
 import { SearchComponent } from './components/search/search.component';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { FormatCurrencyPipe } from './shared/format-currency.pipe';
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    PaymentListComponent,
-    PaymentDetailsComponent,
-    AddPaymentComponent,
-    EditPaymentComponent,
-    MainPageComponent,
-    HeaderComponent,
-    SearchComponent,
-    FormatCurrencyPipe,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatTableModule,
-    HttpClientModule,
-  ],
-  providers: [],
-  bootstrap: [AppComponent],
-})
+@NgModule({ declarations: [
+        AppComponent,
+        PaymentListComponent,
+        PaymentDetailsComponent,
+        AddPaymentComponent,
+        EditPaymentComponent,
+        MainPageComponent,
+        HeaderComponent,
+        SearchComponent,
+        FormatCurrencyPipe,
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatTableModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule {}
