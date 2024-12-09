@@ -1,1 +1,37 @@
+<header class="bg-slate-300 shadow-xl text-zinc-950">
+  <div class="container mx-auto flex justify-between items-center py-4 px-6">
+    <div class="text-2xl font-bold">Payment Managing</div>
 
+    <nav class="hidden md:flex space-x-10">
+      <a href="#" class="text-slate-900 text-xl">Home</a>
+      <a href="#" class="text-slate-900 text-xl">Create</a>
+      <a href="#" class="text-slate-900 text-xl">Contact</a>
+    </nav>
+
+    <button
+      class="md:hidden flex items-center text-slate-900 hover:text-slate-900"
+      (click)="toggleMenu()"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M4 6h16M4 12h16m-7 6h7"
+        />
+      </svg>
+    </button>
+  </div>
+
+  <div *ngIf="isMenuOpen" class="bg-slate-200 md:hidden">
+    <a href="#" class="block px-4 py-2 hover:bg-gray-600">Home</a>
+    <a href="#" class="text-slate-900 text-xl">Create</a>
+    <a href="#" class="text-slate-900 text-xl">Contact</a>
+  </div>
+</header>
