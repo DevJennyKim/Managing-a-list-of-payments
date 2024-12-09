@@ -13,6 +13,7 @@ import { MainPageComponent } from './pages/main-page/main-page.component';
 import { HeaderComponent } from './components/header/header.component';
 import { SearchComponent } from './components/search/search.component';
 import { HttpClientModule } from '@angular/common/http';
+import { FormatCurrencyPipe } from './shared/format-currency.pipe';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { HttpClientModule } from '@angular/common/http';
     MainPageComponent,
     HeaderComponent,
     SearchComponent,
+    FormatCurrencyPipe,
   ],
   imports: [
     BrowserModule,

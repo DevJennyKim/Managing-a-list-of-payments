@@ -55,7 +55,7 @@
         Phone
       </th>
       <td mat-cell *matCellDef="let payment" class="px-6 py-4">
-        {{ payment.payee_phone_number }}
+        +{{ payment.payee_phone_number }}
       </td>
     </ng-container>
 
@@ -68,21 +68,12 @@
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="currency">
+    <ng-container matColumnDef="totalDue">
       <th mat-header-cell *matHeaderCellDef class="px-6 py-3 bg-gray-100">
-        Currency
+        Total Due
       </th>
       <td mat-cell *matCellDef="let payment" class="px-6 py-4">
-        {{ payment.currency }}
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="dueAmount">
-      <th mat-header-cell *matHeaderCellDef class="px-6 py-3 bg-gray-100">
-        Due Amount
-      </th>
-      <td mat-cell *matCellDef="let payment" class="px-6 py-4">
-        {{ payment.due_amount }}
+        {{ payment.total_due | formatCurrency : payment.currency }}
       </td>
     </ng-container>
 
@@ -131,10 +122,12 @@
       <strong>Location:</strong> {{ payment.payee_city }},
       {{ payment.payee_province_or_state }}, {{ payment.payee_country }}
     </p>
-    <p><strong>Phone:</strong> {{ payment.payee_phone_number }}</p>
+    <p><strong>Phone:</strong> +{{ payment.payee_phone_number }}</p>
     <p><strong>Email:</strong> {{ payment.payee_email }}</p>
-    <p><strong>Currency:</strong> {{ payment.currency }}</p>
-    <p><strong>Due Amount:</strong> ${{ payment.due_amount }}</p>
+    <p>
+      <strong>Total Due:</strong>
+      {{ payment.total_due | formatCurrency : payment.currency }}
+    </p>
     <div class="flex justify-between">
       <button
         class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-200"

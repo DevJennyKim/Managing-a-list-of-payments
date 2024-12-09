@@ -35,8 +35,7 @@ export class PaymentListComponent {
     'location',
     'phoneNumber',
     'email',
-    'currency',
-    'dueAmount',
+    'totalDue',
     'edit',
     'delete',
   ];
