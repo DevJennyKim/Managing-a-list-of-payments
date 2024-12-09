@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-payment-list-component',
+  selector: 'pay-payment-list-component',
   templateUrl: './payment-list-component.component.html',
-  styleUrls: ['./payment-list-component.component.scss']
+  styleUrls: ['./payment-list-component.component.scss'],
 })
-export class PaymentListComponentComponent {
-
-}
+export class PaymentListComponentComponent {}
