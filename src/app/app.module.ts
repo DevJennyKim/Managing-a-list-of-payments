@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { MatTableModule } from '@angular/material/table';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -10,6 +11,7 @@ import { EditPaymentComponentComponent } from './components/edit-payment-compone
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainPageComponent } from './pages/main-page/main-page.component';
 import { HeaderComponent } from './components/header/header.component';
+import { SearchComponentComponent } from './components/search-component/search-component.component';
 
 @NgModule({
   declarations: [
@@ -20,8 +22,14 @@ import { HeaderComponent } from './components/header/header.component';
     EditPaymentComponentComponent,
     MainPageComponent,
     HeaderComponent,
+    SearchComponentComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatTableModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
