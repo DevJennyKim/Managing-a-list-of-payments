@@ -12,46 +12,46 @@
     <div class="bg-gray-50 p-4 rounded-lg mb-6">
       <h2 class="text-xl font-semibold text-gray-700 mb-4">Information</h2>
       <p class="mb-2">
-        <strong>Name:</strong> {{ payment?.payee_first_name }}
-        {{ payment?.payee_last_name }}
+        <strong>Name:</strong> {{ payment.payee_first_name }}
+        {{ payment.payee_last_name }}
       </p>
       <p class="mb-2">
-        <strong>Status:</strong> {{ payment?.payee_payment_status }}
+        <strong>Status:</strong> {{ payment.payee_payment_status }}
       </p>
       <p class="mb-2">
-        <strong>Added date:</strong> {{ payment?.payee_added_date_utc }}
+        <strong>Added date:</strong> {{ payment.payee_added_date_utc }}
       </p>
       <p class="mb-2">
-        <strong>Due Date:</strong> {{ payment?.payee_due_date }}
+        <strong>Due Date:</strong> {{ payment.payee_due_date }}
       </p>
       <p class="mb-2">
-        <strong>Address:</strong> {{ payment?.payee_address_line_1 }}
-        {{ payment?.payee_address_line_2 }}
+        <strong>Address:</strong> {{ payment.payee_address_line_1 }}
+        {{ payment.payee_address_line_2 }}
       </p>
       <p class="mb-2">
-        <strong>Location:</strong> {{ payment?.payee_city }},
-        {{ payment?.payee_province_or_state }}, {{ payment?.payee_country }},
-        {{ payment?.payee_postal_code }}
+        <strong>Location:</strong> {{ payment.payee_city }},
+        {{ payment.payee_province_or_state }}, {{ payment.payee_country }},
+        {{ payment.payee_postal_code }}
       </p>
       <p class="mb-2">
-        <strong>Phone:</strong> +{{ payment?.payee_phone_number }}
+        <strong>Phone:</strong> +{{ payment.payee_phone_number }}
       </p>
-      <p class="mb-2"><strong>Email:</strong> {{ payment?.payee_email }}</p>
+      <p class="mb-2"><strong>Email:</strong> {{ payment.payee_email }}</p>
     </div>
 
     <div class="bg-gray-100 p-4 rounded-lg">
       <h2 class="text-xl font-semibold text-gray-700 mb-4">Payment Details</h2>
       <p class="mb-2">
-        <strong>Discount:</strong> {{ payment?.discount_percent }}%
+        <strong>Discount:</strong> {{ payment.discount_percent }}%
       </p>
-      <p class="mb-2"><strong>Tax:</strong> {{ payment?.tax_percent }}%</p>
+      <p class="mb-2"><strong>Tax:</strong> {{ payment.tax_percent }}%</p>
       <p class="mb-2">
         <strong>Due Amount:</strong>
-        {{ payment?.due_amount | formatCurrency : payment?.currency }}
+        {{ payment.due_amount | formatCurrency : payment.currency }}
       </p>
       <p class="mb-4">
         <strong>Total Due:</strong>
-        {{ payment?.total_due | formatCurrency : payment?.currency }}
+        {{ payment.total_due | formatCurrency : payment.currency }}
       </p>
     </div>
 

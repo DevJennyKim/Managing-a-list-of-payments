@@ -10,7 +10,6 @@ import { PaymentRecord } from 'src/app/model/type.model';
 export class EditPaymentComponent {
   @Input() payment!: PaymentRecord;
   @Input() isOpen!: boolean;
-
   @Output() closeModal = new EventEmitter<void>();
   @Output() saveChanges = new EventEmitter<PaymentRecord>();
 
