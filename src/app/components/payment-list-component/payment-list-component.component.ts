@@ -47,6 +47,7 @@ export class PaymentListComponentComponent {
     'email',
     'currency',
     'dueAmount',
+    'btns',
   ];
   constructor() {}
   ngOnInit(): void {}
