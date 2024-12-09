@@ -1,1 +1,59 @@
-<p>edit-payment-component works!</p>
+<div class="modal__content" *ngIf="isOpen">
+  <div class="modal__overlay" (click)="close()"></div>
+  <div class="modal__dialog">
+    <h2>Edit Payment</h2>
+    <form (ngSubmit)="onSave()">
+      <div class="form-group">
+        <label for="dueDate">Due Date</label>
+        <input
+          type="date"
+          id="dueDate"
+          [(ngModel)]="payment.payee_due_date"
+          name="dueDate"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="dueAmount">Due Amount</label>
+        <input
+          type="number"
+          id="dueAmount"
+          [(ngModel)]="payment.due_amount"
+          name="dueAmount"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="status">Status</label>
+        <select
+          id="status"
+          [(ngModel)]="payment.payee_payment_status"
+          name="status"
+          required
+        >
+          <option value="pending">Pending</option>
+          <option value="due_now">Due Now</option>
+          <option value="completed">Completed</option>
+        </select>
+      </div>
+
+      <div
+        *ngIf="
+          payment.payee_payment_status === 'completed' &&
+          !payment.evidence_uploaded
+        "
+      >
+        <p class="error">
+          Please upload evidence before changing the status to "Completed".
+        </p>
+      </div>
+
+      <div class="modal__footer">
+        <button type="button" (click)="close()">Cancel</button>
+        <button type="submit">Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div>

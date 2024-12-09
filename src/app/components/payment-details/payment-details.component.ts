@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { PaymentRecord } from 'src/app/model/type.model';
 @Component({
   selector: 'pay-payment-details',
   templateUrl: './payment-details.component.html',
@@ -6,7 +7,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   standalone: false,
 })
 export class PaymentDetailsComponent {
-  @Input() payment: any;
+  @Input() payment!: PaymentRecord;
   @Input() isOpen: boolean = false;
   @Output() closeModal = new EventEmitter<void>();
 

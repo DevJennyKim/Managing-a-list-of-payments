@@ -13,7 +13,8 @@ export class PaymentListComponent {
   @Input() totalPages: number = 1;
   @Input() pageRange: number[] = [];
   selectedPayment: any = null;
-  isModalOpen: boolean = false;
+  isDetailModalOpen: boolean = false;
+  isEditModalOpen: boolean = false;
 
   @Output()
   pageChanged: EventEmitter<number> = new EventEmitter<number>();
@@ -30,13 +31,31 @@ export class PaymentListComponent {
     this.nextPage.emit();
   }
 
-  openModal(payment: any) {
+  openDetailModal(payment: PaymentRecord) {
     this.selectedPayment = payment;
-    this.isModalOpen = true;
+    this.isDetailModalOpen = true;
   }
-  closeModal() {
-    this.isModalOpen = false;
-    this.selectedPayment = null;
+  closeDetailModal() {
+    this.isDetailModalOpen = false;
+  }
+
+  openEditModal(payment: PaymentRecord) {
+    this.selectedPayment = payment;
+    this.isEditModalOpen = true;
+  }
+
+  closeEditModal() {
+    this.isEditModalOpen = false;
+  }
+
+  savePaymentDetails(updatedPayment: PaymentRecord) {
+    const index = this.payments.findIndex(
+      (payment) => payment._id === updatedPayment._id
+    );
+    if (index !== -1) {
+      this.payments[index] = updatedPayment;
+    }
+    this.closeEditModal();
   }
 
   displayedColumns: string[] = [
