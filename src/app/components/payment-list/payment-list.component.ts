@@ -39,9 +39,11 @@ export class PaymentListComponent {
     this.isDetailModalOpen = false;
   }
 
-  openEditModal(payment: PaymentRecord) {
+  openEditModal(event: MouseEvent, payment: PaymentRecord) {
+    event.stopPropagation();
     this.selectedPayment = payment;
     this.isEditModalOpen = true;
+    console.log(this.isEditModalOpen);
   }
 
   closeEditModal() {
