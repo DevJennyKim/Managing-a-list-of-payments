@@ -11,6 +11,7 @@ export class MainPageComponent implements OnInit {
   payments: PaymentRecord[] = [];
   currentPage = 1;
   totalPages: number = 1;
+  totalItems: number = 0;
   limit: number = 20;
 
   constructor(private apiService: ApiService) {}
@@ -24,7 +25,8 @@ export class MainPageComponent implements OnInit {
       .getPaymentRecord(this.currentPage, this.limit)
       .subscribe((data: any) => {
         this.payments = data.payments;
-        this.totalPages = data.totalPages;
+        this.totalItems = data.totalItems;
+        this.totalPages = Math.ceil(this.totalItems / this.limit);
       });
   }
 
