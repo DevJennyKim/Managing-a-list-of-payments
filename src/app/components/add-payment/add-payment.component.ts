@@ -66,14 +66,6 @@ export class AddPaymentComponent {
       validations: [Validators.required],
     },
     {
-      id: 'payee_city',
-      label: 'City',
-      placeholder: 'Select city',
-      type: 'select',
-      items: [],
-      validations: [Validators.required],
-    },
-    {
       id: 'payee_state',
       label: 'State',
       placeholder: 'Select state',
@@ -81,6 +73,15 @@ export class AddPaymentComponent {
       items: [],
       validations: [Validators.required],
     },
+    {
+      id: 'payee_city',
+      label: 'City',
+      placeholder: 'Select city',
+      type: 'select',
+      items: [],
+      validations: [Validators.required],
+    },
+
     {
       id: 'payee_postal_code',
       label: 'Postal Code',
@@ -148,30 +149,40 @@ export class AddPaymentComponent {
   }
   loadStates(countryCode: string): void {
     this.apiService.loadStates(countryCode).subscribe((response: any) => {
+      console.log('API Response:', response);
       this.states = response.data.states;
-      const stateField = this.inputFields.find(
-        (field) => field.id === 'payee_state'
+      const country = response.data.find(
+        (item: any) => item.iso2 === countryCode
       );
-      console.log('states', this.states);
 
-      if (stateField) {
-        stateField.items = this.states.map((state) => ({
-          id: state.code,
-          name: state.name,
-        }));
+      if (country && country.states) {
+        console.log('States:', country.states);
+        this.states = country.states;
+        const stateField = this.inputFields.find(
+          (field) => field.id === 'payee_state'
+        );
+
+        if (stateField) {
+          stateField.items = this.states.map((state) => ({
+            id: state.code,
+            name: state.name,
+          }));
+        }
+      } else {
+        console.log(`No states found for country code: ${countryCode}`);
       }
     });
   }
   onFieldChange(fieldId: string, event: any): void {
-    const selectedValue = event.value;
+    const selectedValue = event;
+    console.log('Selected Value:', selectedValue);
     if (fieldId === 'payee_country') {
       this.onCountryChange(selectedValue);
     }
   }
 
-  onCountryChange(event: any): void {
-    const selectedCountry = event.value;
-    this.loadStates(selectedCountry);
+  onCountryChange(selectedCountryCode: string): void {
+    this.loadStates(selectedCountryCode);
   }
 
   getControl(fieldId: string): FormControl {

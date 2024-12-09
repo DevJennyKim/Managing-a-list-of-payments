@@ -26,6 +26,17 @@ export class ApiService {
     );
   }
 
+  loadCity(countryCode: string, state: string): Observable<any> {
+    const body = {
+      country: countryCode,
+      state: state,
+    };
+    return this.http.post(
+      'https://countriesnow.space/api/v0.1/countries/state/cities',
+      body
+    );
+  }
+
   loadCurrencies(): Observable<any> {
     return this.http.get('https://api.exchangerate-api.com/v4/latest/USD');
   }

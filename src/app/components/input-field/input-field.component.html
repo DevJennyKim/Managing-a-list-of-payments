@@ -10,7 +10,7 @@
   <select
     *ngIf="type === 'select'"
     [formControl]="control"
-    (selectionChange)="onSelectChange($event)"
+    (change)="onSelectChange($event)"
     class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
   >
     <option *ngIf="!isLoading" [value]="" disabled>Select an option</option>
@@ -19,5 +19,6 @@
         {{ item.name }}
       </option>
     </ng-container>
+    <option *ngIf="isLoading" disabled>Loading...</option>
   </select>
 </div>

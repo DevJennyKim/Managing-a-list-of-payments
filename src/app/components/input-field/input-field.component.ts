@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { AbstractControl, FormControl } from '@angular/forms';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormControl } from '@angular/forms';
 @Component({
   selector: 'pay-input-field',
   templateUrl: './input-field.component.html',
@@ -15,7 +15,11 @@ export class InputFieldComponent {
   @Input() items: any[] = [];
   @Input() isLoading: boolean = false;
 
-  onSelectChange(event: any) {
-    const selectedItem = event.value;
+  @Output() selectionChange = new EventEmitter<any>();
+
+  onSelectChange(event: any): void {
+    const selectedItem = event.target.value;
+    this.selectionChange.emit(selectedItem);
+    this.control.setValue(selectedItem);
   }
 }
