@@ -11,10 +11,21 @@ export class ApiService {
   private apiUrl = environment.apiBaseUrl;
   constructor(private http: HttpClient) {}
 
-  getPaymentRecord(page: number, limit: number): Observable<ApiResponse> {
-    return this.http.get<ApiResponse>(
-      `${this.apiUrl}/payments?page=${page}&limit=${limit}`
-    );
+  getPaymentRecord(
+    page: number,
+    limit: number,
+    searchTerm?: string,
+    statusFilter?: string
+  ): Observable<ApiResponse> {
+    let queryParams = `page=${page}&limit=${limit}`;
+    if (searchTerm) {
+      queryParams += `&search=${searchTerm}`;
+    }
+    if (statusFilter) {
+      queryParams += `&filter_status=${statusFilter}`;
+    }
+
+    return this.http.get<ApiResponse>(`${this.apiUrl}/payments?${queryParams}`);
   }
   getPaymentRecordById(paymentId: string): Observable<ApiResponse> {
     return this.http.get<ApiResponse>(`${this.apiUrl}/payments/${paymentId}`);

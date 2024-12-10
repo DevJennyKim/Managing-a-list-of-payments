@@ -31,27 +31,28 @@ export class MainPageComponent implements OnInit {
 
   fetchPayments(): void {
     this.apiService
-      .getPaymentRecord(this.currentPage, this.limit)
+      .getPaymentRecord(
+        this.currentPage,
+        this.limit,
+        this.searchTerm || undefined,
+        this.statusFilter || undefined
+      )
       .subscribe((data: any) => {
-        console.log('Fetched payments:', data.payments);
         this.payments = data.payments;
         this.totalItems = data.totalItems;
         this.totalPages = Math.ceil(this.totalItems / this.limit);
         this.updatePageRange();
-        this.applyFilters();
       });
   }
 
   detectMobileView(): void {
     const mediaQuery = window.matchMedia('(max-width: 768px)');
     this.isMobile = mediaQuery.matches;
-    console.log('Initial isMobile:', this.isMobile);
     this.pageEnd = this.isMobile ? 3 : 10;
     this.updatePageRange();
     mediaQuery.addEventListener('change', (event) => {
       this.ngZone.run(() => {
         this.isMobile = event.matches;
-        console.log('Updated isMobile:', this.isMobile);
         this.pageEnd = this.isMobile ? 3 : 10;
         this.updatePageRange();
       });
@@ -91,38 +92,10 @@ export class MainPageComponent implements OnInit {
   }
   onStatusChange(status: string) {
     this.statusFilter = status;
-    console.log('main statusFilter: ', this.statusFilter);
-    this.applyFilters();
+    this.fetchPayments();
   }
 
   onSearchChange() {
-    console.log('main searchThen: ', this.searchTerm);
-
-    this.applyFilters();
-  }
-
-  applyFilters() {
-    this.filteredPayments = this.payments.filter((payment) => {
-      const matchesSearchTerm = this.searchTerm
-        ? payment.payee_first_name
-            .toLowerCase()
-            .includes(this.searchTerm.toLowerCase()) ||
-          payment.payee_last_name
-            .toLowerCase()
-            .includes(this.searchTerm.toLowerCase()) ||
-          payment.payee_email
-            .toLowerCase()
-            .includes(this.searchTerm.toLowerCase())
-        : true;
-
-      console.log(this.filteredPayments);
-
-      const matchesStatusFilter = this.statusFilter
-        ? payment.payee_payment_status.toLowerCase() ===
-          this.statusFilter.toLowerCase()
-        : true;
-
-      return matchesSearchTerm && matchesStatusFilter;
-    });
+    this.fetchPayments();
   }
 }
