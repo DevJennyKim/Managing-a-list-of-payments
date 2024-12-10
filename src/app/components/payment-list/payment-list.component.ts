@@ -44,9 +44,10 @@ export class PaymentListComponent {
 
   deletePaymentRecord(event: MouseEvent, payment: any) {
     event.stopPropagation();
-    console.log('payment: ', payment._id);
 
-    this.apiService.deletePaymentRecord(payment._id).subscribe();
+    this.apiService.deletePaymentRecord(payment._id).subscribe(() => {
+      this.payments = this.payments.filter((p) => p._id !== payment._id);
+    });
   }
 
   openEditModal(event: MouseEvent, payment: PaymentRecord) {
