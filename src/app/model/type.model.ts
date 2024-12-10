@@ -22,6 +22,7 @@ export interface PaymentRecord {
 }
 
 export interface ApiResponse {
+  inserted_id: string;
   data: PaymentRecord[];
   totalCount: number;
   currentPage: number;

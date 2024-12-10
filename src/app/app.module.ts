@@ -8,7 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PaymentListComponent } from './components/payment-list/payment-list.component';
 import { PaymentDetailsComponent } from './components/payment-details/payment-details.component';
-import { AddPaymentComponent } from './components/add-payment/add-payment.component';
+import { AddPaymentComponent } from './pages/add-payment/add-payment.component';
 import { EditPaymentComponent } from './components/edit-payment/edit-payment.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainPageComponent } from './pages/main-page/main-page.component';
