@@ -9,7 +9,13 @@
 
     <ng-container matColumnDef="paymentStatus">
       <th mat-header-cell *matHeaderCellDef>Status</th>
-      <td mat-cell *matCellDef="let payment">
+      <td
+        mat-cell
+        *matCellDef="let payment"
+        [ngClass]="{
+          'text-red-500': payment.payee_payment_status === 'completed'
+        }"
+      >
         {{ payment.payee_payment_status }}
       </td>
     </ng-container>
@@ -61,6 +67,10 @@
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let payment">
         <button
+          *ngIf="
+            !payment.evidence_file_url &&
+            payment.payee_payment_status !== 'completed'
+          "
           class="bg-blue-400 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-200"
           (click)="openEditModal($event, payment)"
         >

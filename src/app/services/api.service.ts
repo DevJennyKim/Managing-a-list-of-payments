@@ -16,6 +16,9 @@ export class ApiService {
       `${this.apiUrl}/payments?page=${page}&limit=${limit}`
     );
   }
+  getPaymentRecordById(paymentId: string): Observable<ApiResponse> {
+    return this.http.get<ApiResponse>(`${this.apiUrl}/payments/${paymentId}`);
+  }
 
   postPaymentRecord(payment: PaymentRecord): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(`${this.apiUrl}/payments`, payment);

@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { PaymentRecord } from 'src/app/model/type.model';
+import { ApiResponse, PaymentRecord } from 'src/app/model/type.model';
 import { ApiService } from 'src/app/services/api.service';
 import { cloneDeep } from 'lodash';
 import { ToastrService } from 'ngx-toastr';
@@ -16,7 +16,7 @@ export class EditPaymentComponent {
   @Output() closeModal = new EventEmitter<void>();
   @Output() saveChanges = new EventEmitter<PaymentRecord>();
   selectedFile: File | null = null;
-  tempPayment!: PaymentRecord;
+  tempPayment!: any;
 
   constructor(private apiService: ApiService, private toastr: ToastrService) {}
 

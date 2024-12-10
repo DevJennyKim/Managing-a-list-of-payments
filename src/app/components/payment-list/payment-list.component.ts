@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { PaymentRecord } from 'src/app/model/type.model';
 import { ApiService } from 'src/app/services/api.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'pay-payment-list',
@@ -22,7 +23,7 @@ export class PaymentListComponent {
   @Output() prevPage: EventEmitter<void> = new EventEmitter<void>();
   @Output() nextPage: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private toastr: ToastrService) {}
 
   onPageChanged(page: number): void {
     this.pageChanged.emit(page);
@@ -61,14 +62,24 @@ export class PaymentListComponent {
   }
 
   savePaymentDetails(updatedPayment: PaymentRecord) {
-    const index = this.payments.findIndex(
-      (payment) => payment._id === updatedPayment._id
+    this.apiService.getPaymentRecordById(updatedPayment._id).subscribe(
+      (payment: any) => {
+        const index = this.payments.findIndex(
+          (payment) => payment._id === updatedPayment._id
+        );
+        console.log('payment: ', payment);
+
+        if (index > -1) {
+          this.payments[index] = payment.payment;
+        }
+        this.payments = [...this.payments];
+        this.closeEditModal();
+      },
+      (error) => {
+        console.error('Error updating payment details:', error);
+        this.toastr.error('Failed to update payment details.', 'Error');
+      }
     );
-    if (index > -1) {
-      this.payments[index] = updatedPayment;
-    }
-    this.payments = [...this.payments];
-    this.closeEditModal();
   }
 
   displayedColumns: string[] = [
