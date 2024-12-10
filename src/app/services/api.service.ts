@@ -41,7 +41,12 @@ export class ApiService {
   }
 
   downloadEvidence(paymentId: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/download_evidence/${paymentId}`);
+    return this.http.get<Blob>(
+      `${this.apiUrl}/download_evidence/${paymentId}`,
+      {
+        responseType: 'blob' as 'json',
+      }
+    );
   }
 
   loadCountries(): Observable<any> {

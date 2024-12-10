@@ -20,8 +20,13 @@ export class PaymentDetailsComponent {
 
   downloadEvidence(paymentId: string): void {
     this.apiService.downloadEvidence(paymentId).subscribe(
-      (response: any) => {
-        window.location.href = response.downloadUrl;
+      (response: Blob) => {
+        const downloadUrl = window.URL.createObjectURL(response);
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        link.download = `${paymentId}_evidence.pdf`;
+        link.click();
+        window.URL.revokeObjectURL(downloadUrl);
       },
       (error) => {
         console.error('Error downloading evidence:', error);
