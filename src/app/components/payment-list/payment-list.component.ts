@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { PaymentRecord } from 'src/app/model/type.model';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'pay-payment-list',
@@ -21,6 +22,8 @@ export class PaymentListComponent {
   @Output() prevPage: EventEmitter<void> = new EventEmitter<void>();
   @Output() nextPage: EventEmitter<void> = new EventEmitter<void>();
 
+  constructor(private apiService: ApiService) {}
+
   onPageChanged(page: number): void {
     this.pageChanged.emit(page);
   }
@@ -39,11 +42,17 @@ export class PaymentListComponent {
     this.isDetailModalOpen = false;
   }
 
+  deletePaymentRecord(event: MouseEvent, payment: any) {
+    event.stopPropagation();
+    console.log('payment: ', payment._id);
+
+    this.apiService.deletePaymentRecord(payment._id).subscribe();
+  }
+
   openEditModal(event: MouseEvent, payment: PaymentRecord) {
     event.stopPropagation();
     this.selectedPayment = payment;
     this.isEditModalOpen = true;
-    console.log(this.isEditModalOpen);
   }
 
   closeEditModal() {
@@ -72,6 +81,5 @@ export class PaymentListComponent {
     'edit',
     'delete',
   ];
-  constructor() {}
   ngOnInit(): void {}
 }

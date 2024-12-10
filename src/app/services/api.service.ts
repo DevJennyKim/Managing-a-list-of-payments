@@ -21,6 +21,12 @@ export class ApiService {
     return this.http.post<ApiResponse>(this.apiUrl, payment);
   }
 
+  deletePaymentRecord(paymentId: string): Observable<ApiResponse> {
+    return this.http.delete<ApiResponse>(
+      `${this.apiUrl}/payments/${paymentId}`
+    );
+  }
+
   uploadEvidence(paymentId: string, file: File): Observable<any> {
     const formData = new FormData();
     formData.append('file', file, file.name);
