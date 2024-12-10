@@ -1,9 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
-    selector: 'pay-search',
-    templateUrl: './search.component.html',
-    styleUrls: ['./search.component.scss'],
-    standalone: false
+  selector: 'pay-search',
+  templateUrl: './search.component.html',
+  styleUrls: ['./search.component.scss'],
+  standalone: false,
 })
-export class SearchComponent {}
+export class SearchComponent {
+  payments = [];
+  @Input() searchTerm: string = '';
+  @Input() statusFilter: string = '';
+  @Output() searchChanged: EventEmitter<void> = new EventEmitter<void>();
+
+  onSearchChange() {
+    this.searchChanged.emit();
+  }
+  onSearch(form: any) {
+    console.log('Search executed for:', this.searchTerm);
+  }
+}

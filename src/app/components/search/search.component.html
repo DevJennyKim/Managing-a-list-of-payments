@@ -1,1 +1,38 @@
-<p>search-component works!</p>
+<div class="flex flex-col sm:flex-row justify-between items-center gap-6">
+  <div class="w-full sm:max-w-xs">
+    <select
+      name="status"
+      class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-150 ease-in-out"
+      [(ngModel)]="statusFilter"
+    >
+      <option value="">All Status</option>
+      <option value="pending">Pending</option>
+      <option value="due_now">Due Now</option>
+      <option value="overdue">Over Due</option>
+      <option value="completed">Completed</option>
+    </select>
+  </div>
+  <div class="w-full sm:max-w-xs">
+    <form
+      #searchForm="ngForm"
+      class="flex items-center gap-3"
+      (ngSubmit)="onSearch(searchForm)"
+    >
+      <input
+        type="text"
+        name="searchTerm"
+        [(ngModel)]="searchTerm"
+        placeholder="Search by name or email"
+        class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-150 ease-in-out"
+        required
+      />
+      <button
+        type="submit"
+        class="bg-blue-400 text-white p-3 rounded-lg shadow-md hover:bg-blue-500 transition duration-200 ease-in-out disabled:bg-gray-300"
+        [disabled]="!searchForm.valid"
+      >
+        Search
+      </button>
+    </form>
+  </div>
+</div>

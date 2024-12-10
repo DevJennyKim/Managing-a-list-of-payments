@@ -3,10 +3,10 @@ import { ApiService } from '../../services/api.service';
 import { PaymentRecord } from 'src/app/model/type.model';
 
 @Component({
-    selector: 'pay-main-page',
-    templateUrl: './main-page.component.html',
-    styleUrls: ['./main-page.component.scss'],
-    standalone: false
+  selector: 'pay-main-page',
+  templateUrl: './main-page.component.html',
+  styleUrls: ['./main-page.component.scss'],
+  standalone: false,
 })
 export class MainPageComponent implements OnInit {
   payments: PaymentRecord[] = [];
@@ -18,6 +18,9 @@ export class MainPageComponent implements OnInit {
   pageStart = 1;
   pageEnd = 10;
   isMobile = false;
+  searchTerm: string = '';
+  statusFilter: string = '';
+  filteredPayments = [];
 
   constructor(private apiService: ApiService, private ngZone: NgZone) {}
 
@@ -84,4 +87,6 @@ export class MainPageComponent implements OnInit {
       this.updatePageRange();
     }
   }
+
+  onSearchChange() {}
 }
