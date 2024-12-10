@@ -40,6 +40,10 @@ export class ApiService {
     return this.http.put<any>(`${this.apiUrl}/payments/${payment._id}`, body);
   }
 
+  downloadEvidence(paymentId: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/download_evidence/${paymentId}`);
+  }
+
   loadCountries(): Observable<any> {
     return this.http.get('https://countriesnow.space/api/v0.1/countries');
   }

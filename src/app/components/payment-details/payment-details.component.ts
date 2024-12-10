@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { PaymentRecord } from 'src/app/model/type.model';
+import { ApiService } from 'src/app/services/api.service';
 @Component({
   selector: 'pay-payment-details',
   templateUrl: './payment-details.component.html',
@@ -11,9 +12,20 @@ export class PaymentDetailsComponent {
   @Input() isOpen: boolean = false;
   @Output() closeModal = new EventEmitter<void>();
 
+  constructor(private apiService: ApiService) {}
+
   close() {
     this.closeModal.emit();
   }
 
-  downloadEvidence(paymentId: string): void {}
+  downloadEvidence(paymentId: string): void {
+    this.apiService.downloadEvidence(paymentId).subscribe(
+      (response: any) => {
+        window.location.href = response.downloadUrl;
+      },
+      (error) => {
+        console.error('Error downloading evidence:', error);
+      }
+    );
+  }
 }
