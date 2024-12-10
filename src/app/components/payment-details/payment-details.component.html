@@ -55,11 +55,18 @@
         {{ payment.total_due | formatCurrency : payment.currency }}
       </p>
     </div>
+    <div class="flex justify-end mt-6 gap-5">
+      <button
+        *ngIf="payment.evidence_file_url"
+        (click)="downloadEvidence(payment._id)"
+        class="bg-yellow-500 text-white px-6 py-3 rounded-lg hover:bg-yellow-600 focus:outline-none transition ease-in-out duration-300 transform hover:scale-105"
+      >
+        Download Evidence
+      </button>
 
-    <div class="flex justify-end mt-6">
       <button
         (click)="close()"
-        class="bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-blue-600 focus:outline-none transition ease-in-out duration-300 transform hover:scale-105"
+        class="bg-gray-400 text-white px-6 py-3 rounded-lg hover:bg-gray-500 focus:outline-none transition ease-in-out duration-300 transform hover:scale-105"
       >
         Close
       </button>
