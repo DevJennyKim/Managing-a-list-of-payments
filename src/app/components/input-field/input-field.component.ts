@@ -15,6 +15,7 @@ export class InputFieldComponent {
   @Input() control!: FormControl;
   @Input() items: any[] = [];
   @Input() isLoading: boolean = false;
+  @Input() tooltip: string = '';
 
   @Output() selectionChange = new EventEmitter<any>();
 

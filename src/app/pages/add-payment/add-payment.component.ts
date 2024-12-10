@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { phoneNumberValidator } from 'src/app/validators/phone-number.validator';
 import {
   FormBuilder,
   FormControl,
@@ -37,6 +38,7 @@ export class AddPaymentComponent {
       placeholder: 'Enter phone number',
       type: 'text',
       validations: [Validators.required],
+      tooltip: 'ⓘ Please enter phone number in the format: +1 408 555 1234',
     },
     {
       id: 'payee_email',
@@ -68,13 +70,12 @@ export class AddPaymentComponent {
       validations: [Validators.required],
     },
     {
-      id: 'payee_state',
+      id: 'payee_province_or_state',
       label: 'State',
       placeholder: 'Select a state',
       type: 'select',
       fieldType: 'state',
       items: [],
-      validations: [Validators.required],
     },
     {
       id: 'payee_city',
@@ -164,19 +165,25 @@ export class AddPaymentComponent {
       payee_first_name: ['', Validators.required],
       payee_last_name: ['', Validators.required],
       payee_email: ['', [Validators.required, Validators.email]],
-      payee_phone_number: ['', Validators.required],
+      payee_phone_number: ['', [Validators.required, phoneNumberValidator]],
       payee_address_line_1: ['', Validators.required],
       payee_address_line_2: [''],
       payee_city: ['', Validators.required],
       payee_country: ['', Validators.required],
-      payee_state: ['', Validators.required],
+      payee_province_or_state: [''],
       payee_postal_code: ['', Validators.required],
       currency: ['', Validators.required],
-      payee_payment_status: ['', Validators.required],
+      payee_payment_status: ['pending', Validators.required],
       payee_due_date: ['', Validators.required],
-      discount_percent: ['', Validators.required],
-      tax_percent: ['', Validators.required],
-      due_amount: [0, [Validators.required, Validators.min(1)]],
+      discount_percent: [
+        '',
+        [Validators.required, Validators.min(0), Validators.max(100)],
+      ],
+      tax_percent: [
+        '',
+        [Validators.required, Validators.min(0), Validators.max(100)],
+      ],
+      due_amount: [0, [Validators.required, Validators.min(0.01)]],
       payee_added_date_utc: new Date().toISOString(),
     });
   }
@@ -301,23 +308,79 @@ export class AddPaymentComponent {
 
   onSubmit(): void {
     if (this.paymentForm.valid) {
-      this.apiService.postPaymentRecord(this.paymentForm.value).subscribe(
-        (response: ApiResponse) => {
-          console.log('Payment created successfully!', response.inserted_id);
-        },
-        (error) => {
-          console.error('Error creating payment:', error);
-        }
+      const formData = { ...this.paymentForm.value };
+
+      formData.discount_percent = parseFloat(
+        (formData.discount_percent || 0).toFixed(2)
       );
+      formData.tax_percent = parseFloat((formData.tax_percent || 0).toFixed(2));
+      formData.due_amount = parseFloat((formData.due_amount || 0).toFixed(2));
+      formData.payee_phone_number = formData.payee_phone_number
+        .trim()
+        .replace(/^\+/, '');
+      formData.payee_due_date = this.formatDate(formData.payee_due_date);
+
+      const countryName = formData.payee_country;
+
+      this.convertCountryNameToIso2(countryName).then((iso2) => {
+        if (iso2) {
+          formData.payee_country = iso2;
+
+          this.apiService.postPaymentRecord(formData).subscribe(
+            (response: ApiResponse) => {
+              console.log(
+                'Payment created successfully!',
+                response.inserted_id
+              );
+            },
+            (error) => {
+              console.error('Error creating payment:', error);
+            }
+          );
+        } else {
+          console.error('Could not convert country name to ISO2');
+        }
+      });
     } else {
       console.error('Form is invalid');
       this.markAllFieldsAsTouched();
     }
   }
 
+  convertCountryNameToIso2(countryName: string): Promise<string | null> {
+    return new Promise((resolve, reject) => {
+      this.apiService.loadCountries().subscribe(
+        (response: any) => {
+          const countries = response.data;
+          const matchedCountry = countries.find(
+            (country: any) => country.country === countryName
+          );
+          console.log('matchedCountry', matchedCountry);
+
+          resolve(matchedCountry ? matchedCountry.iso2 : null);
+        },
+        (error) => {
+          console.error('Error fetching countries:', error);
+          reject(null);
+        }
+      );
+    });
+  }
+
+  private formatDate(date: string): string {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
   private markAllFieldsAsTouched(): void {
     Object.keys(this.paymentForm.controls).forEach((key) => {
-      this.paymentForm.get(key)?.markAsTouched();
+      const control = this.paymentForm.get(key);
+      if (control?.invalid) {
+        console.log(`${key} is invalid:`, control.errors);
+      }
     });
   }
 }

@@ -8,6 +8,9 @@
     class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
     [ngClass]="{ 'border-red-500': control.touched && control.invalid }"
   />
+  <div *ngIf="tooltip" class="text-gray-500 text-sm mt-0.5">
+    <small>{{ tooltip }}</small>
+  </div>
   <select
     *ngIf="type === 'select'"
     [formControl]="control"
@@ -29,7 +32,7 @@
   >
     <div *ngIf="control.hasError('required')">This field is required.</div>
     <div *ngIf="control.hasError('email')">Please enter a valid email.</div>
-    <div *ngIf="control.hasError('pattern')">
+    <div *ngIf="control.hasError('invalidPhoneNumber')">
       Please enter a valid phone number.
     </div>
     <div *ngIf="control.hasError('min')">The value is too small.</div>

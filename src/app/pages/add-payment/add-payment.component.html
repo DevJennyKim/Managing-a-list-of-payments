@@ -18,6 +18,7 @@
           [type]="field.type"
           [control]="getControl(field.id)"
           [items]="field.items || []"
+          [tooltip]="field.tooltip || ''"
           (selectionChange)="onFieldChange(field.id, $event)"
         ></pay-input-field>
       </div>
