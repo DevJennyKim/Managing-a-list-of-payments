@@ -64,9 +64,10 @@ export class PaymentListComponent {
     const index = this.payments.findIndex(
       (payment) => payment._id === updatedPayment._id
     );
-    if (index !== -1) {
+    if (index > -1) {
       this.payments[index] = updatedPayment;
     }
+    this.payments = [...this.payments];
     this.closeEditModal();
   }
 
