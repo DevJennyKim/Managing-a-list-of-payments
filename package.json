@@ -24,6 +24,7 @@
     "dotenv": "^16.4.7",
     "libphonenumber-js": "^1.11.16",
     "lodash": "^4.17.21",
+    "ngx-toastr": "^19.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"

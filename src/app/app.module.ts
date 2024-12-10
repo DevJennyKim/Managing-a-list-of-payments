@@ -10,7 +10,7 @@ import { PaymentListComponent } from './components/payment-list/payment-list.com
 import { PaymentDetailsComponent } from './components/payment-details/payment-details.component';
 import { AddPaymentComponent } from './pages/add-payment/add-payment.component';
 import { EditPaymentComponent } from './components/edit-payment/edit-payment.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { MainPageComponent } from './pages/main-page/main-page.component';
 import { HeaderComponent } from './components/header/header.component';
 import { SearchComponent } from './components/search/search.component';
@@ -18,13 +18,16 @@ import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
-import { FormatCurrencyPipe } from './shared/format-currency.pipe';
+
 import { InputFieldComponent } from './components/input-field/input-field.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
-import { DatePipe } from '@angular/common';
+import { ToastrModule } from 'ngx-toastr';
 
+import { FormatCurrencyPipe } from './shared/format-currency.pipe';
+import { DatePipe } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,6 +53,11 @@ import { DatePipe } from '@angular/common';
     MatFormFieldModule,
     MatSelectModule,
     MatOptionModule,
+    ToastrModule.forRoot({
+      timeOut: 3000,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+    }),
   ],
   providers: [provideHttpClient(withInterceptorsFromDi()), DatePipe],
 })
