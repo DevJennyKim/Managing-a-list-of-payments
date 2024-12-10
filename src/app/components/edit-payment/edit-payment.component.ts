@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { PaymentRecord } from 'src/app/model/type.model';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'pay-edit-payment',
@@ -12,21 +13,51 @@ export class EditPaymentComponent {
   @Input() isOpen!: boolean;
   @Output() closeModal = new EventEmitter<void>();
   @Output() saveChanges = new EventEmitter<PaymentRecord>();
+  selectedFile: File | null = null;
+
+  constructor(private apiService: ApiService) {}
 
   close() {
     this.closeModal.emit();
   }
+
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+  }
+
   onSave() {
     if (
       this.payment.payee_payment_status === 'completed' &&
-      !this.payment.evidence_file_url
+      this.selectedFile
     ) {
-      alert(
-        'Please upload evidence before changing the status to "Completed".'
-      );
-      return;
+      this.uploadEvidence(this.selectedFile);
+    } else {
+      this.updatePaymentRecord();
     }
-    this.saveChanges.emit(this.payment);
-    this.close();
+  }
+
+  uploadEvidence(file: File) {
+    this.apiService.uploadEvidence(this.payment._id, file).subscribe(
+      (response: any) => {
+        this.payment.evidence_file_url = response.fileUrl;
+        this.payment.payee_payment_status = 'completed';
+        this.updatePaymentRecord();
+      },
+      (error) => {
+        console.error('Error uploading evidence:', error);
+      }
+    );
+  }
+
+  updatePaymentRecord() {
+    this.apiService.updatePaymentRecord(this.payment).subscribe(
+      (response) => {
+        console.log('Payment record updated successfully:', response);
+        this.saveChanges.emit(this.payment);
+      },
+      (error) => {
+        console.error('Error updating payment record:', error);
+      }
+    );
   }
 }
