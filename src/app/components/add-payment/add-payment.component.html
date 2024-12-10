@@ -1,1 +1,29 @@
-<p>add-payment-component works!</p>
+<div class="max-w-3xl mx-auto p-8 bg-white rounded-lg shadow-lg my-10">
+  <h1 class="text-4xl font-bold mb-8 text-center text-gray-800">
+    Create Payment
+  </h1>
+  <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <pay-input-field
+        *ngFor="let field of inputFields"
+        [id]="field.id"
+        [label]="field.label"
+        [placeholder]="field.placeholder"
+        [type]="field.type"
+        [fieldType]="field.fieldType || ''"
+        [control]="getControl(field.id)"
+        [items]="field.items || []"
+        (selectionChange)="onFieldChange(field.id, $event)"
+      ></pay-input-field>
+    </div>
+
+    <div class="flex justify-end">
+      <button
+        type="submit"
+        class="bg-blue-600 mt-6 text-white font-semibold px-8 py-3 rounded-lg shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+      >
+        Submit
+      </button>
+    </div>
+  </form>
+</div>

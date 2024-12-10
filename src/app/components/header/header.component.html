@@ -1,11 +1,26 @@
-<header class="bg-slate-300 shadow-xl text-zinc-950">
+<header class="bg-slate-300 text-zinc-950">
   <div class="container mx-auto flex justify-between items-center py-4 px-6">
     <div class="text-2xl font-bold">Payment Manager</div>
 
     <nav class="hidden md:flex space-x-10">
-      <a routerLink="/main" class="text-slate-900 text-xl">Home</a>
-      <a routerLink="/add-payment" class="text-slate-900 text-xl">Create</a>
-      <a href="#" class="text-slate-900 text-xl">Contact</a>
+      <a
+        routerLink="/main"
+        routerLinkActive="active"
+        class="text-slate-900 text-xl"
+        >Home</a
+      >
+      <a
+        routerLink="/add-payment"
+        routerLinkActive="active"
+        class="text-slate-900 text-xl"
+        >Create</a
+      >
+      <a
+        routerLink="/about"
+        routerLinkActive="active"
+        class="text-slate-900 text-xl"
+        >Contact</a
+      >
     </nav>
 
     <button
@@ -30,8 +45,14 @@
   </div>
 
   <div *ngIf="isMenuOpen" class="bg-slate-200 md:hidden">
-    <a href="#" class="block px-4 py-2 hover:bg-gray-600 text-xl">Home</a>
-    <a href="#" class="block px-4 py-2 text-slate-900 text-xl">Create</a>
-    <a href="#" class="block px-4 py-2 text-slate-900 text-xl">Contact</a>
+    <a routerLink="/main" class="block px-4 py-2 hover:bg-gray-600 text-xl"
+      >Home</a
+    >
+    <a routerLink="/add-payment" class="block px-4 py-2 text-slate-900 text-xl"
+      >Create</a
+    >
+    <a routerLink="/about" class="block px-4 py-2 text-slate-900 text-xl"
+      >Contact</a
+    >
   </div>
 </header>
