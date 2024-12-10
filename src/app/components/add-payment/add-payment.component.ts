@@ -137,6 +137,8 @@ export class AddPaymentComponent {
   loadCountries(): void {
     this.apiService.loadCountries().subscribe((response: any) => {
       this.countries = response.data;
+      console.log('countries', this.countries);
+
       const countryField = this.inputFields.find(
         (field) => field.id === 'payee_country'
       );
@@ -149,6 +151,7 @@ export class AddPaymentComponent {
       }
     });
   }
+
   loadStates(countryName: string): void {
     this.apiService.loadStates(countryName).subscribe((response: any) => {
       const stateField = this.inputFields.find(
@@ -164,9 +167,26 @@ export class AddPaymentComponent {
     });
   }
 
+  loadCities(country: string, state: string): void {
+    this.apiService.loadCities(country, state).subscribe((response: any) => {
+      const cityField = this.inputFields.find(
+        (field) => field.id === 'payee_city'
+      );
+      if (cityField) {
+        cityField.items = response.data.map((city: string) => ({
+          id: city,
+          name: city,
+        }));
+      }
+    });
+  }
+
   loadCurrencies(): void {
     this.apiService.loadCurrencies().subscribe((response: any) => {
       this.currencies = response.data;
+
+      console.log('currencies', this.currencies);
+
       const currencyField = this.inputFields.find(
         (field) => field.id === 'currency'
       );
@@ -189,11 +209,27 @@ export class AddPaymentComponent {
     }
   }
 
-  onCountryChange(selectedCountryCode: string): void {
-    this.loadStates(selectedCountryCode);
+  onCountryChange(selectedCountryName: string): void {
+    this.loadStates(selectedCountryName);
+
+    const selectedCountry = this.countries.find(
+      (country) => country.country === selectedCountryName
+    );
+
+    if (selectedCountry) {
+      const matchingCurrency = this.currencies.find(
+        (currency) => currency.iso2 === selectedCountry.iso2
+      );
+      if (matchingCurrency) {
+        this.paymentForm.get('currency')?.setValue(matchingCurrency.currency);
+      } else {
+        this.paymentForm.get('currency')?.reset();
+      }
+    }
+
     if (this.paymentForm.get('payee_state')?.value) {
       this.loadCities(
-        selectedCountryCode,
+        selectedCountryName,
         this.paymentForm.get('payee_state')?.value
       );
     }
@@ -204,20 +240,6 @@ export class AddPaymentComponent {
     if (country && selectedState) {
       this.loadCities(country, selectedState);
     }
-  }
-
-  loadCities(country: string, state: string): void {
-    this.apiService.loadCities(country, state).subscribe((response: any) => {
-      const cityField = this.inputFields.find(
-        (field) => field.id === 'payee_city'
-      );
-      if (cityField) {
-        cityField.items = response.data.map((city: string) => ({
-          id: city,
-          name: city,
-        }));
-      }
-    });
   }
 
   getControl(fieldId: string): FormControl {
