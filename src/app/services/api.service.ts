@@ -16,6 +16,10 @@ export class ApiService {
       `${this.apiUrl}?page=${page}&limit=${limit}`
     );
   }
+
+  postPaymentRecord(payment: any): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(this.apiUrl, payment);
+  }
   loadCountries(): Observable<any> {
     return this.http.get('https://countriesnow.space/api/v0.1/countries');
   }

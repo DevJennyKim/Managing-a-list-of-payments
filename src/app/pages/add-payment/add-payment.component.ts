@@ -5,6 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { ApiResponse } from 'src/app/model/type.model';
 import { ApiService } from 'src/app/services/api.service';
 
 @Component({
@@ -250,7 +251,14 @@ export class AddPaymentComponent {
 
   onSubmit(): void {
     if (this.paymentForm.valid) {
-      console.log('Form Data:', this.paymentForm.value);
+      this.apiService.postPaymentRecord(this.paymentForm.value).subscribe(
+        (response: ApiResponse) => {
+          console.log('Payment created successfully!', response.inserted_id);
+        },
+        (error) => {
+          console.error('Error creating payment:', error);
+        }
+      );
     } else {
       console.error('Form is invalid');
       this.markAllFieldsAsTouched();
