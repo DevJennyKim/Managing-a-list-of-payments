@@ -6,12 +6,14 @@
     [placeholder]="placeholder"
     [formControl]="control"
     class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+    [ngClass]="{ 'border-red-500': control.touched && control.invalid }"
   />
   <select
     *ngIf="type === 'select'"
     [formControl]="control"
     (change)="onSelectChange($event)"
     class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+    [ngClass]="{ 'border-red-500': control.touched && control.invalid }"
   >
     <option [value]="" disabled selected hidden>{{ placeholder }}</option>
     <ng-container *ngIf="!isLoading">
@@ -21,4 +23,12 @@
     </ng-container>
     <option *ngIf="isLoading" disabled>Loading...</option>
   </select>
+  <div
+    *ngIf="control.touched && control.invalid"
+    class="text-red-500 text-sm mt-1"
+  >
+    <div *ngIf="control.hasError('required')">This field is required.</div>
+    <div *ngIf="control.hasError('email')">Please enter a valid email.</div>
+    <div *ngIf="control.hasError('min')">The value is too small.</div>
+  </div>
 </div>
