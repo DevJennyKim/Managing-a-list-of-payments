@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { phoneNumberValidator } from 'src/app/validators/phone-number.validator';
+import { Router } from '@angular/router';
 import {
   FormBuilder,
   FormControl,
@@ -160,7 +161,11 @@ export class AddPaymentComponent {
   states: any[] = [];
   currencies: any[] = [];
 
-  constructor(private fb: FormBuilder, private apiService: ApiService) {
+  constructor(
+    private fb: FormBuilder,
+    private apiService: ApiService,
+    private router: Router
+  ) {
     this.paymentForm = this.fb.group({
       payee_first_name: ['', Validators.required],
       payee_last_name: ['', Validators.required],
@@ -212,7 +217,7 @@ export class AddPaymentComponent {
   loadStates(countryName: string): void {
     this.apiService.loadStates(countryName).subscribe((response: any) => {
       const stateField = this.infoFields.find(
-        (field) => field.id === 'payee_state'
+        (field) => field.id === 'payee_province_or_state'
       );
 
       if (stateField) {
@@ -220,7 +225,6 @@ export class AddPaymentComponent {
           id: state.state_code,
           name: state.name,
         }));
-        console.log('stateField: ', stateField?.items);
       }
     });
   }
@@ -259,7 +263,7 @@ export class AddPaymentComponent {
     if (fieldId === 'payee_country') {
       const selectedValue = event;
       this.onCountryChange(selectedValue);
-    } else if (fieldId === 'payee_state') {
+    } else if (fieldId === 'payee_province_or_state') {
       const selectedValue = event;
       this.onStateChange(selectedValue);
     }
@@ -283,10 +287,10 @@ export class AddPaymentComponent {
       }
     }
 
-    if (this.paymentForm.get('payee_state')?.value) {
+    if (this.paymentForm.get('payee_province_or_state')?.value) {
       this.loadCities(
         selectedCountryName,
-        this.paymentForm.get('payee_state')?.value
+        this.paymentForm.get('payee_province_or_state')?.value
       );
     }
   }
@@ -309,12 +313,22 @@ export class AddPaymentComponent {
   onSubmit(): void {
     if (this.paymentForm.valid) {
       const formData = { ...this.paymentForm.value };
+      console.log(
+        typeof formData.discount_percent,
+        typeof formData.tax_percent,
+        typeof formData.due_amount
+      );
+
+      formData.discount_percent = Number(formData.discount_percent || 0);
+      formData.tax_percent = Number(formData.tax_percent || 0);
+      formData.due_amount = Number(formData.due_amount || 0);
 
       formData.discount_percent = parseFloat(
-        (formData.discount_percent || 0).toFixed(2)
+        formData.discount_percent.toFixed(2)
       );
-      formData.tax_percent = parseFloat((formData.tax_percent || 0).toFixed(2));
-      formData.due_amount = parseFloat((formData.due_amount || 0).toFixed(2));
+      formData.tax_percent = parseFloat(formData.tax_percent.toFixed(2));
+      formData.due_amount = parseFloat(formData.due_amount.toFixed(2));
+
       formData.payee_phone_number = formData.payee_phone_number
         .trim()
         .replace(/^\+/, '');
@@ -332,6 +346,8 @@ export class AddPaymentComponent {
                 'Payment created successfully!',
                 response.inserted_id
               );
+
+              this.router.navigate(['/main']);
             },
             (error) => {
               console.error('Error creating payment:', error);
@@ -355,7 +371,6 @@ export class AddPaymentComponent {
           const matchedCountry = countries.find(
             (country: any) => country.country === countryName
           );
-          console.log('matchedCountry', matchedCountry);
 
           resolve(matchedCountry ? matchedCountry.iso2 : null);
         },

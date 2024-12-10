@@ -23,6 +23,7 @@ import { InputFieldComponent } from './components/input-field/input-field.compon
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,6 @@ import { MatOptionModule } from '@angular/material/core';
     MatSelectModule,
     MatOptionModule,
   ],
-  providers: [provideHttpClient(withInterceptorsFromDi())],
+  providers: [provideHttpClient(withInterceptorsFromDi()), DatePipe],
 })
 export class AppModule {}
