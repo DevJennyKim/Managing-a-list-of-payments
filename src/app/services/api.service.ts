@@ -17,9 +17,19 @@ export class ApiService {
     );
   }
 
-  postPaymentRecord(payment: any): Observable<ApiResponse> {
+  postPaymentRecord(payment: PaymentRecord): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(this.apiUrl, payment);
   }
+
+  updatePaymentRecord(payment: PaymentRecord): Observable<ApiResponse> {
+    const body = {
+      payee_due_date: payment.payee_due_date,
+      due_amount: payment.due_amount,
+      payee_payment_status: payment.payee_payment_status,
+    };
+    return this.http.put<ApiResponse>(`${this.apiUrl}/${payment._id}`, body);
+  }
+
   loadCountries(): Observable<any> {
     return this.http.get('https://countriesnow.space/api/v0.1/countries');
   }
