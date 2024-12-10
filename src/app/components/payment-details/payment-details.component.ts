@@ -14,4 +14,6 @@ export class PaymentDetailsComponent {
   close() {
     this.closeModal.emit();
   }
+
+  downloadEvidence(paymentId: string): void {}
 }
