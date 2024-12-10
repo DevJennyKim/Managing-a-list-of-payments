@@ -26,27 +26,36 @@ export class EditPaymentComponent {
   onSave() {
     if (
       this.payment.payee_payment_status === 'completed' &&
-      !this.payment.evidence_file_url
-    ) {
-      alert(
-        'Please upload evidence before changing the status to "Completed".'
-      );
-      return;
-    }
-
-    if (
-      this.payment.payee_payment_status === 'completed' &&
       this.selectedFile
     ) {
-      this.uploadEvidence(this.selectedFile);
+      this.uploadEvidence(this.selectedFile).subscribe(
+        (response: any) => {
+          this.payment.evidence_file_url = response.fileUrl;
+          this.payment.payee_payment_status = 'completed';
+
+          this.updatePaymentRecord();
+        },
+        (error) => {
+          console.error('Error uploading evidence:', error);
+        }
+      );
     } else {
       this.updatePaymentRecord();
     }
-    this.saveChanges.emit(this.payment);
-    this.close();
   }
 
-  uploadEvidence(file: File) {}
+  uploadEvidence(file: File) {
+    this.apiService.uploadEvidence(this.payment._id, file).subscribe(
+      (response: any) => {
+        this.payment.evidence_file_url = response.fileUrl;
+        this.payment.payee_payment_status = 'Completed';
+        this.updatePaymentRecord();
+      },
+      (error) => {
+        console.error('Error uploading evidence:', error);
+      }
+    );
+  }
 
   updatePaymentRecord() {}
 }

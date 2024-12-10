@@ -21,13 +21,23 @@ export class ApiService {
     return this.http.post<ApiResponse>(this.apiUrl, payment);
   }
 
+  uploadEvidence(paymentId: string, file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+
+    return this.http.post<any>(
+      `${this.apiUrl}/upload_evidence/${paymentId}`,
+      formData
+    );
+  }
+
   updatePaymentRecord(payment: PaymentRecord): Observable<ApiResponse> {
     const body = {
       payee_due_date: payment.payee_due_date,
       due_amount: payment.due_amount,
       payee_payment_status: payment.payee_payment_status,
     };
-    return this.http.put<ApiResponse>(`${this.apiUrl}/${payment._id}`, body);
+    return this.http.put<any>(`${this.apiUrl}/payments/${payment._id}`, body);
   }
 
   loadCountries(): Observable<any> {
