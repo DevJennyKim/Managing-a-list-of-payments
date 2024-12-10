@@ -20,7 +20,7 @@ export class MainPageComponent implements OnInit {
   isMobile = false;
   searchTerm: string = '';
   statusFilter: string = '';
-  filteredPayments = [];
+  filteredPayments: PaymentRecord[] = [];
 
   constructor(private apiService: ApiService, private ngZone: NgZone) {}
 
@@ -88,5 +88,30 @@ export class MainPageComponent implements OnInit {
     }
   }
 
-  onSearchChange() {}
+  onSearchChange() {
+    this.applyFilters();
+  }
+
+  applyFilters() {
+    this.filteredPayments = this.payments.filter((payment) => {
+      const matchesSearchTerm = this.searchTerm
+        ? payment.payee_first_name
+            .toLowerCase()
+            .includes(this.searchTerm.toLowerCase()) ||
+          payment.payee_last_name
+            .toLowerCase()
+            .includes(this.searchTerm.toLowerCase()) ||
+          payment.payee_email
+            .toLowerCase()
+            .includes(this.searchTerm.toLowerCase())
+        : true;
+
+      const matchesStatusFilter = this.statusFilter
+        ? payment.payee_payment_status.toLowerCase() ===
+          this.statusFilter.toLowerCase()
+        : true;
+
+      return matchesSearchTerm && matchesStatusFilter;
+    });
+  }
 }

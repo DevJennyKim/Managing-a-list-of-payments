@@ -15,7 +15,4 @@ export class SearchComponent {
   onSearchChange() {
     this.searchChanged.emit();
   }
-  onSearch(form: any) {
-    console.log('Search executed for:', this.searchTerm);
-  }
 }
