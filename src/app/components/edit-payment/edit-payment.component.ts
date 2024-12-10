@@ -14,7 +14,9 @@ export class EditPaymentComponent {
   @Output() closeModal = new EventEmitter<void>();
   @Output() saveChanges = new EventEmitter<PaymentRecord>();
   selectedFile: File | null = null;
+
   constructor(private apiService: ApiService) {}
+
   close() {
     this.closeModal.emit();
   }
@@ -28,17 +30,7 @@ export class EditPaymentComponent {
       this.payment.payee_payment_status === 'completed' &&
       this.selectedFile
     ) {
-      this.uploadEvidence(this.selectedFile).subscribe(
-        (response: any) => {
-          this.payment.evidence_file_url = response.fileUrl;
-          this.payment.payee_payment_status = 'completed';
-
-          this.updatePaymentRecord();
-        },
-        (error) => {
-          console.error('Error uploading evidence:', error);
-        }
-      );
+      this.uploadEvidence(this.selectedFile);
     } else {
       this.updatePaymentRecord();
     }
@@ -48,7 +40,7 @@ export class EditPaymentComponent {
     this.apiService.uploadEvidence(this.payment._id, file).subscribe(
       (response: any) => {
         this.payment.evidence_file_url = response.fileUrl;
-        this.payment.payee_payment_status = 'Completed';
+        this.payment.payee_payment_status = 'completed';
         this.updatePaymentRecord();
       },
       (error) => {
@@ -57,5 +49,15 @@ export class EditPaymentComponent {
     );
   }
 
-  updatePaymentRecord() {}
+  updatePaymentRecord() {
+    this.apiService.updatePaymentRecord(this.payment).subscribe(
+      (response) => {
+        console.log('Payment record updated successfully:', response);
+        this.saveChanges.emit(this.payment);
+      },
+      (error) => {
+        console.error('Error updating payment record:', error);
+      }
+    );
+  }
 }

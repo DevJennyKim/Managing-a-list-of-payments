@@ -13,7 +13,7 @@ export class ApiService {
 
   getPaymentRecord(page: number, limit: number): Observable<ApiResponse> {
     return this.http.get<ApiResponse>(
-      `${this.apiUrl}?page=${page}&limit=${limit}`
+      `${this.apiUrl}/payments?page=${page}&limit=${limit}`
     );
   }
 
