@@ -16,7 +16,7 @@ import { ApiService } from 'src/app/services/api.service';
 })
 export class AddPaymentComponent {
   paymentForm!: FormGroup;
-  inputFields = [
+  infoFields = [
     {
       id: 'payee_first_name',
       label: 'First Name',
@@ -100,13 +100,58 @@ export class AddPaymentComponent {
       items: [],
       validations: [Validators.required],
     },
-
+  ];
+  paymentFields = [
+    {
+      id: 'payee_due_date',
+      label: 'Due Date',
+      placeholder: 'Choose the date',
+      type: 'date',
+      validations: [Validators.required],
+    },
+    {
+      id: 'discount_percent',
+      label: 'Discount Percentage',
+      placeholder: 'Enter discount percentage',
+      type: 'number',
+      validations: [
+        Validators.required,
+        Validators.min(0),
+        Validators.max(100),
+      ],
+    },
+    {
+      id: 'tax_percent',
+      label: 'Tax Percentage',
+      placeholder: 'Enter tax percentage',
+      type: 'number',
+      validations: [
+        Validators.required,
+        Validators.min(0),
+        Validators.max(100),
+      ],
+    },
     {
       id: 'due_amount',
       label: 'Due Amount',
       placeholder: 'Enter due amount',
       type: 'number',
       validations: [Validators.required, Validators.min(1)],
+    },
+    {
+      id: 'payee_payment_status',
+      label: '',
+      placeholder: 'Pending',
+      type: 'hidden',
+      value: 'pending',
+      validations: [Validators.required],
+    },
+    {
+      id: 'payee_added_date_utc',
+      label: 'Added Date',
+      type: 'hidden',
+      value: new Date().toISOString(),
+      validations: [Validators.required],
     },
   ];
 
@@ -127,7 +172,12 @@ export class AddPaymentComponent {
       payee_state: ['', Validators.required],
       payee_postal_code: ['', Validators.required],
       currency: ['', Validators.required],
+      payee_payment_status: ['', Validators.required],
+      payee_due_date: ['', Validators.required],
+      discount_percent: ['', Validators.required],
+      tax_percent: ['', Validators.required],
       due_amount: [0, [Validators.required, Validators.min(1)]],
+      payee_added_date_utc: new Date().toISOString(),
     });
   }
   ngOnInit(): void {
@@ -139,7 +189,7 @@ export class AddPaymentComponent {
     this.apiService.loadCountries().subscribe((response: any) => {
       this.countries = response.data;
 
-      const countryField = this.inputFields.find(
+      const countryField = this.infoFields.find(
         (field) => field.id === 'payee_country'
       );
 
@@ -154,7 +204,7 @@ export class AddPaymentComponent {
 
   loadStates(countryName: string): void {
     this.apiService.loadStates(countryName).subscribe((response: any) => {
-      const stateField = this.inputFields.find(
+      const stateField = this.infoFields.find(
         (field) => field.id === 'payee_state'
       );
 
@@ -170,7 +220,7 @@ export class AddPaymentComponent {
 
   loadCities(country: string, state: string): void {
     this.apiService.loadCities(country, state).subscribe((response: any) => {
-      const cityField = this.inputFields.find(
+      const cityField = this.infoFields.find(
         (field) => field.id === 'payee_city'
       );
       if (cityField) {
@@ -186,7 +236,7 @@ export class AddPaymentComponent {
     this.apiService.loadCurrencies().subscribe((response: any) => {
       this.currencies = response.data;
 
-      const currencyField = this.inputFields.find(
+      const currencyField = this.infoFields.find(
         (field) => field.id === 'currency'
       );
       if (currencyField) {

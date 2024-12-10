@@ -25,10 +25,13 @@
   </select>
   <div
     *ngIf="control.touched && control.invalid"
-    class="text-red-500 text-sm mt-1"
+    class="text-red-500 text-sm mt-0.5"
   >
     <div *ngIf="control.hasError('required')">This field is required.</div>
     <div *ngIf="control.hasError('email')">Please enter a valid email.</div>
+    <div *ngIf="control.hasError('pattern')">
+      Please enter a valid phone number.
+    </div>
     <div *ngIf="control.hasError('min')">The value is too small.</div>
   </div>
 </div>
