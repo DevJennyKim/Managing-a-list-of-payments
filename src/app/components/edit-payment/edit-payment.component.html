@@ -8,6 +8,10 @@
     class="modal__content bg-white rounded-lg p-6 shadow-lg w-full max-w-lg"
   >
     <h2 class="text-2xl font-semibold mb-6">Edit Payment</h2>
+    <p class="my-2">
+      <strong>Name: </strong>{{ payment.payee_first_name }}
+      {{ payment.payee_last_name }}
+    </p>
 
     <form (ngSubmit)="onSave()">
       <div class="form-group mb-4">
@@ -17,7 +21,7 @@
         <input
           type="date"
           id="dueDate"
-          [(ngModel)]="payment.payee_due_date"
+          [(ngModel)]="tempPayment.payee_due_date"
           name="dueDate"
           required
           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -31,7 +35,7 @@
         <input
           type="number"
           id="dueAmount"
-          [(ngModel)]="payment.due_amount"
+          [(ngModel)]="tempPayment.due_amount"
           name="dueAmount"
           required
           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -44,9 +48,9 @@
         >
         <select
           id="status"
-          [(ngModel)]="payment.payee_payment_status"
+          [(ngModel)]="tempPayment.payee_payment_status"
           name="status"
-          [disabled]="payment.payee_payment_status === 'completed'"
+          [disabled]="payment.evidence_file_url"
           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="pending">Pending</option>

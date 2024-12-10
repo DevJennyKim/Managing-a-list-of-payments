@@ -35,21 +35,21 @@ export class EditPaymentComponent {
 
   onSave() {
     if (
-      this.payment.payee_payment_status === 'completed' &&
+      this.tempPayment.payee_payment_status === 'completed' &&
       this.selectedFile
     ) {
       this.uploadEvidence(this.selectedFile);
     } else {
-      this.saveChanges.emit(this.tempPayment);
+      this.updatePaymentRecord();
     }
   }
 
   uploadEvidence(file: File) {
-    this.apiService.uploadEvidence(this.payment._id, file).subscribe(
+    this.apiService.uploadEvidence(this.tempPayment._id, file).subscribe(
       (response: any) => {
-        this.payment.evidence_file_url = response.fileUrl;
-        this.payment.payee_payment_status = 'completed';
-        this.updatePaymentRecord();
+        this.tempPayment.evidence_file_url = response.fileUrl;
+        this.tempPayment.payee_payment_status = 'completed';
+        this.saveChanges.emit(this.tempPayment);
       },
       (error) => {
         console.error('Error uploading evidence:', error);
@@ -58,10 +58,10 @@ export class EditPaymentComponent {
   }
 
   updatePaymentRecord() {
-    this.apiService.updatePaymentRecord(this.payment).subscribe(
+    this.apiService.updatePaymentRecord(this.tempPayment).subscribe(
       (response) => {
         console.log('Payment record updated successfully:', response);
-        this.saveChanges.emit(this.payment);
+        this.saveChanges.emit(this.tempPayment);
       },
       (error) => {
         console.error('Error updating payment record:', error);
