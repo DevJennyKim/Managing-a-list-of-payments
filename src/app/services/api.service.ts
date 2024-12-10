@@ -18,7 +18,13 @@ export class ApiService {
   }
 
   postPaymentRecord(payment: PaymentRecord): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(this.apiUrl, payment);
+    return this.http.post<ApiResponse>(`${this.apiUrl}/payments`, payment);
+  }
+
+  deletePaymentRecord(paymentId: string): Observable<ApiResponse> {
+    return this.http.delete<ApiResponse>(
+      `${this.apiUrl}/payments/${paymentId}`
+    );
   }
 
   uploadEvidence(paymentId: string, file: File): Observable<any> {
