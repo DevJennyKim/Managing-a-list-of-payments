@@ -61,7 +61,7 @@
 
       <div
         *ngIf="
-          payment.payee_payment_status === 'completed' &&
+          tempPayment.payee_payment_status === 'completed' &&
           !payment.evidence_file_url
         "
         class="mb-4 text-red-600 text-sm"

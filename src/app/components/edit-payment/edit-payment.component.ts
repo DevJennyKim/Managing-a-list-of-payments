@@ -1,7 +1,8 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { PaymentRecord } from 'src/app/model/type.model';
+import { ApiResponse, PaymentRecord } from 'src/app/model/type.model';
 import { ApiService } from 'src/app/services/api.service';
 import { cloneDeep } from 'lodash';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'pay-edit-payment',
@@ -15,9 +16,9 @@ export class EditPaymentComponent {
   @Output() closeModal = new EventEmitter<void>();
   @Output() saveChanges = new EventEmitter<PaymentRecord>();
   selectedFile: File | null = null;
-  tempPayment!: PaymentRecord;
+  tempPayment!: any;
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private toastr: ToastrService) {}
 
   ngOnChanges() {
     if (this.isOpen) {
@@ -39,6 +40,12 @@ export class EditPaymentComponent {
       this.selectedFile
     ) {
       this.uploadEvidence(this.selectedFile);
+    } else if (
+      this.tempPayment.payee_payment_status === 'completed' &&
+      !this.selectedFile
+    ) {
+      this.toastr.error('Please provide the evidence.', 'No Evidence Provided');
+      return;
     } else {
       this.updatePaymentRecord();
     }
@@ -49,7 +56,7 @@ export class EditPaymentComponent {
       (response: any) => {
         this.tempPayment.evidence_file_url = response.fileUrl;
         this.tempPayment.payee_payment_status = 'completed';
-        this.saveChanges.emit(this.tempPayment);
+        this.updatePaymentRecord();
       },
       (error) => {
         console.error('Error uploading evidence:', error);
@@ -60,10 +67,11 @@ export class EditPaymentComponent {
   updatePaymentRecord() {
     this.apiService.updatePaymentRecord(this.tempPayment).subscribe(
       (response) => {
-        console.log('Payment record updated successfully:', response);
+        this.toastr.success('Data saved successfully!', 'Success');
         this.saveChanges.emit(this.tempPayment);
       },
       (error) => {
+        this.toastr.error('Failed to save data.', 'Error');
         console.error('Error updating payment record:', error);
       }
     );
