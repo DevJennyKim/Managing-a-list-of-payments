@@ -60,7 +60,7 @@ export class AddPaymentComponent {
     {
       id: 'payee_country',
       label: 'Country',
-      placeholder: 'Select country',
+      placeholder: 'Select a country',
       fieldType: 'country',
       type: 'select',
       items: [] as { id: string; name: string }[],
@@ -69,7 +69,7 @@ export class AddPaymentComponent {
     {
       id: 'payee_state',
       label: 'State',
-      placeholder: 'Select state',
+      placeholder: 'Select a state',
       type: 'select',
       fieldType: 'state',
       items: [],
@@ -78,7 +78,7 @@ export class AddPaymentComponent {
     {
       id: 'payee_city',
       label: 'City',
-      placeholder: 'Select city',
+      placeholder: 'Select a city',
       type: 'select',
       items: [],
       validations: [Validators.required],
@@ -123,7 +123,7 @@ export class AddPaymentComponent {
       payee_address_line_2: [''],
       payee_city: ['', Validators.required],
       payee_country: ['', Validators.required],
-      payee_status: ['', Validators.required],
+      payee_state: ['', Validators.required],
       payee_postal_code: ['', Validators.required],
       currency: ['', Validators.required],
       due_amount: [0, [Validators.required, Validators.min(1)]],
@@ -137,7 +137,6 @@ export class AddPaymentComponent {
   loadCountries(): void {
     this.apiService.loadCountries().subscribe((response: any) => {
       this.countries = response.data;
-      console.log('countries', this.countries);
 
       const countryField = this.inputFields.find(
         (field) => field.id === 'payee_country'
@@ -163,6 +162,7 @@ export class AddPaymentComponent {
           id: state.state_code,
           name: state.name,
         }));
+        console.log('stateField: ', stateField?.items);
       }
     });
   }
@@ -184,8 +184,6 @@ export class AddPaymentComponent {
   loadCurrencies(): void {
     this.apiService.loadCurrencies().subscribe((response: any) => {
       this.currencies = response.data;
-
-      console.log('currencies', this.currencies);
 
       const currencyField = this.inputFields.find(
         (field) => field.id === 'currency'
@@ -243,7 +241,11 @@ export class AddPaymentComponent {
   }
 
   getControl(fieldId: string): FormControl {
-    return this.paymentForm.get(fieldId) as FormControl;
+    const control = this.paymentForm.get(fieldId);
+    if (!control) {
+      console.error(`FormControl with id "${fieldId}" not found.`);
+    }
+    return control as FormControl;
   }
 
   onSubmit(): void {
@@ -251,6 +253,13 @@ export class AddPaymentComponent {
       console.log('Form Data:', this.paymentForm.value);
     } else {
       console.error('Form is invalid');
+      this.markAllFieldsAsTouched();
     }
+  }
+
+  private markAllFieldsAsTouched(): void {
+    Object.keys(this.paymentForm.controls).forEach((key) => {
+      this.paymentForm.get(key)?.markAsTouched();
+    });
   }
 }
