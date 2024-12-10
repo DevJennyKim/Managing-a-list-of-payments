@@ -61,6 +61,7 @@ export class AddPaymentComponent {
       id: 'payee_country',
       label: 'Country',
       placeholder: 'Select country',
+      fieldType: 'country',
       type: 'select',
       items: [] as { id: string; name: string }[],
       validations: [Validators.required],
@@ -70,6 +71,7 @@ export class AddPaymentComponent {
       label: 'State',
       placeholder: 'Select state',
       type: 'select',
+      fieldType: 'state',
       items: [],
       validations: [Validators.required],
     },
@@ -129,7 +131,7 @@ export class AddPaymentComponent {
   }
   ngOnInit(): void {
     this.loadCountries();
-    this.loadCountries();
+    this.loadCurrencies();
   }
 
   loadCountries(): void {
@@ -147,40 +149,42 @@ export class AddPaymentComponent {
       }
     });
   }
-  loadStates(countryCode: string): void {
-    this.apiService.loadStates(countryCode).subscribe((response: any) => {
-      this.states = response.data.states;
-      const country = response.data.find(
-        (item: any) => item.iso2 === countryCode
+  loadStates(countryName: string): void {
+    this.apiService.loadStates(countryName).subscribe((response: any) => {
+      const stateField = this.inputFields.find(
+        (field) => field.id === 'payee_state'
       );
 
-      if (country && country.states) {
-        console.log('States:', country.states);
-        this.states = country.states;
-        const stateField = this.inputFields.find(
-          (field) => field.id === 'payee_state'
-        );
-
-        if (stateField) {
-          stateField.items = this.states.map((state) => ({
-            id: state.code,
-            name: state.name,
-          }));
-        }
-      } else {
-        console.log(`No states found for country code: ${countryCode}`);
+      if (stateField) {
+        stateField.items = response.data.states.map((state: any) => ({
+          id: state.state_code,
+          name: state.name,
+        }));
       }
     });
   }
-  onFieldChange(fieldId: string, event: any): void {
-    const selectedValue = event;
-    console.log('Selected Value:', selectedValue);
-    if (fieldId === 'payee_country') {
-      console.log('country');
 
+  loadCurrencies(): void {
+    this.apiService.loadCurrencies().subscribe((response: any) => {
+      this.currencies = response.data;
+      const currencyField = this.inputFields.find(
+        (field) => field.id === 'currency'
+      );
+      if (currencyField) {
+        currencyField.items = this.currencies.map((currency) => ({
+          id: currency.currency,
+          name: currency.currency,
+        }));
+      }
+    });
+  }
+
+  onFieldChange(fieldId: string, event: any): void {
+    if (fieldId === 'payee_country') {
+      const selectedValue = event;
       this.onCountryChange(selectedValue);
     } else if (fieldId === 'payee_state') {
-      console.log('state');
+      const selectedValue = event;
       this.onStateChange(selectedValue);
     }
   }
@@ -197,7 +201,6 @@ export class AddPaymentComponent {
 
   onStateChange(selectedState: string): void {
     const country = this.paymentForm.get('payee_country')?.value;
-    console.log('country: ', country, 'selectedState: ', selectedState);
     if (country && selectedState) {
       this.loadCities(country, selectedState);
     }
@@ -205,7 +208,6 @@ export class AddPaymentComponent {
 
   loadCities(country: string, state: string): void {
     this.apiService.loadCities(country, state).subscribe((response: any) => {
-      console.log('Cities:', response);
       const cityField = this.inputFields.find(
         (field) => field.id === 'payee_city'
       );

@@ -13,9 +13,9 @@
     (change)="onSelectChange($event)"
     class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
   >
-    <option *ngIf="!isLoading" [value]="" disabled>Select an option</option>
+    <option *ngIf="!isLoading" [value]="">Select an option</option>
     <ng-container *ngIf="!isLoading">
-      <option *ngFor="let item of items" [value]="item.id">
+      <option *ngFor="let item of items" [value]="item.name">
         {{ item.name }}
       </option>
     </ng-container>

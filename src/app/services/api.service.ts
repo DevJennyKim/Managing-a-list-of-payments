@@ -20,9 +20,13 @@ export class ApiService {
     return this.http.get('https://countriesnow.space/api/v0.1/countries');
   }
 
-  loadStates(countryCode: string): Observable<any> {
-    return this.http.get(
-      `https://countriesnow.space/api/v0.1/countries/states?country=${countryCode}`
+  loadStates(countryName: string): Observable<any> {
+    const body = {
+      country: countryName,
+    };
+    return this.http.post(
+      `https://countriesnow.space/api/v0.1/countries/states`,
+      body
     );
   }
 
@@ -38,6 +42,8 @@ export class ApiService {
   }
 
   loadCurrencies(): Observable<any> {
-    return this.http.get('https://api.exchangerate-api.com/v4/latest/USD');
+    return this.http.get(
+      'https://countriesnow.space/api/v0.1/countries/currency'
+    );
   }
 }
