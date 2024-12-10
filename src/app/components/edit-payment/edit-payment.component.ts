@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { PaymentRecord } from 'src/app/model/type.model';
 import { ApiService } from 'src/app/services/api.service';
+import { cloneDeep } from 'lodash';
 
 @Component({
   selector: 'pay-edit-payment',
@@ -14,8 +15,15 @@ export class EditPaymentComponent {
   @Output() closeModal = new EventEmitter<void>();
   @Output() saveChanges = new EventEmitter<PaymentRecord>();
   selectedFile: File | null = null;
+  tempPayment!: PaymentRecord;
 
   constructor(private apiService: ApiService) {}
+
+  ngOnChanges() {
+    if (this.isOpen) {
+      this.tempPayment = cloneDeep(this.payment);
+    }
+  }
 
   close() {
     this.closeModal.emit();
@@ -32,7 +40,7 @@ export class EditPaymentComponent {
     ) {
       this.uploadEvidence(this.selectedFile);
     } else {
-      this.updatePaymentRecord();
+      this.saveChanges.emit(this.tempPayment);
     }
   }
 
