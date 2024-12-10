@@ -4,6 +4,7 @@
       name="status"
       class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-150 ease-in-out"
       [(ngModel)]="statusFilter"
+      (ngModelChange)="onStatusChange()"
     >
       <option value="">All Status</option>
       <option value="pending">Pending</option>
@@ -16,7 +17,7 @@
     <form
       #searchForm="ngForm"
       class="flex items-center gap-3"
-      (ngSubmit)="onSearch(searchForm)"
+      (ngSubmit)="onSearchChange()"
     >
       <input
         type="text"

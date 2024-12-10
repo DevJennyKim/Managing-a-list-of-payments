@@ -2,12 +2,13 @@
   <pay-search
     [(searchTerm)]="searchTerm"
     [(statusFilter)]="statusFilter"
-    (searchChanged)="onSearchChange()"
+    (searchTermChange)="onSearchChange()"
+    (statusFilterChange)="onStatusChange($event)"
   >
     ></pay-search
   >
   <pay-payment-list
-    [payments]="payments"
+    [payments]="filteredPayments"
     [currentPage]="currentPage"
     [totalPages]="totalPages"
     [pageRange]="pageRange"

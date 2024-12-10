@@ -33,10 +33,12 @@ export class MainPageComponent implements OnInit {
     this.apiService
       .getPaymentRecord(this.currentPage, this.limit)
       .subscribe((data: any) => {
+        console.log('Fetched payments:', data.payments);
         this.payments = data.payments;
         this.totalItems = data.totalItems;
         this.totalPages = Math.ceil(this.totalItems / this.limit);
         this.updatePageRange();
+        this.applyFilters();
       });
   }
 
@@ -87,8 +89,15 @@ export class MainPageComponent implements OnInit {
       this.updatePageRange();
     }
   }
+  onStatusChange(status: string) {
+    this.statusFilter = status;
+    console.log('main statusFilter: ', this.statusFilter);
+    this.applyFilters();
+  }
 
   onSearchChange() {
+    console.log('main searchThen: ', this.searchTerm);
+
     this.applyFilters();
   }
 
@@ -105,6 +114,8 @@ export class MainPageComponent implements OnInit {
             .toLowerCase()
             .includes(this.searchTerm.toLowerCase())
         : true;
+
+      console.log(this.filteredPayments);
 
       const matchesStatusFilter = this.statusFilter
         ? payment.payee_payment_status.toLowerCase() ===
