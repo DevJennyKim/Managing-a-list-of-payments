@@ -4,5 +4,5 @@
   status = 200
 
 [build]
-  publish = "dist/payment-managing-app"
+  publish = "dist/payment-managing-app/browser"
   command = "ng build --prod"
