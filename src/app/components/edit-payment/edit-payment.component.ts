@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ApiResponse, PaymentRecord } from 'src/app/model/type.model';
 import { ApiService } from 'src/app/services/api.service';
-import { cloneDeep } from 'lodash';
+import { cloneDeep } from 'lodash-es';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
