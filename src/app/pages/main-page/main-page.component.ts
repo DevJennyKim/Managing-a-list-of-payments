@@ -21,6 +21,7 @@ export class MainPageComponent implements OnInit {
   searchTerm: string = '';
   statusFilter: string = '';
   filteredPayments: PaymentRecord[] = [];
+  isLoading: boolean = false;
 
   constructor(private apiService: ApiService, private ngZone: NgZone) {}
 
