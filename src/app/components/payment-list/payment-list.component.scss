@@ -1,0 +1,19 @@
+@use "@angular/material" as mat;
+
+.demo-table {
+  width: 100%;
+}
+
+.mat-mdc-row .mat-mdc-cell {
+  border-bottom: 1px solid rgb(231, 231, 231);
+  border-top: 1px solid lightgray;
+  cursor: pointer;
+}
+
+.mat-mdc-row:hover .mat-mdc-cell {
+  background-color: lightgray;
+}
+
+.demo-row-is-clicked {
+  background-color: lightgray;
+}

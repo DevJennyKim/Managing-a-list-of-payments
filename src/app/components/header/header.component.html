@@ -1,0 +1,58 @@
+<header class="bg-slate-300 text-zinc-950">
+  <div class="container mx-auto flex justify-between items-center py-4 px-6">
+    <a routerLink="/" class="text-2xl font-bold">Payment Manager</a>
+
+    <nav class="hidden md:flex space-x-10">
+      <a
+        routerLink="/main"
+        routerLinkActive="active"
+        class="text-slate-900 text-xl"
+        >Home</a
+      >
+      <a
+        routerLink="/add-payment"
+        routerLinkActive="active"
+        class="text-slate-900 text-xl"
+        >Create</a
+      >
+      <a
+        routerLink="/about"
+        routerLinkActive="active"
+        class="text-slate-900 text-xl"
+        >Contact</a
+      >
+    </nav>
+
+    <button
+      class="md:hidden flex items-center text-slate-900 hover:text-slate-900"
+      (click)="toggleMenu()"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M4 6h16M4 12h16m-7 6h7"
+        />
+      </svg>
+    </button>
+  </div>
+
+  <div *ngIf="isMenuOpen" class="bg-slate-200 md:hidden">
+    <a routerLink="/main" class="block px-4 py-2 hover:bg-gray-600 text-xl"
+      >Home</a
+    >
+    <a routerLink="/add-payment" class="block px-4 py-2 text-slate-900 text-xl"
+      >Create</a
+    >
+    <a routerLink="/about" class="block px-4 py-2 text-slate-900 text-xl"
+      >Contact</a
+    >
+  </div>
+</header>
