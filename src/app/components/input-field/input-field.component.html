@@ -19,12 +19,9 @@
     [ngClass]="{ 'border-red-500': control.touched && control.invalid }"
   >
     <option [value]="" disabled selected hidden>{{ placeholder }}</option>
-    <ng-container *ngIf="!isLoading">
-      <option *ngFor="let item of items" [value]="item.name">
-        {{ item.name }}
-      </option>
-    </ng-container>
-    <option *ngIf="isLoading" disabled>Loading...</option>
+    <option *ngFor="let item of items" [value]="item.name">
+      {{ item.name }}
+    </option>
   </select>
   <div
     *ngIf="control.touched && control.invalid"

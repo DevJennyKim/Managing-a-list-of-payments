@@ -40,6 +40,8 @@ export class MainPageComponent implements OnInit {
       .subscribe((data: any) => {
         this.payments = data.payments;
         this.totalItems = data.totalItems;
+        console.log(this.totalItems);
+
         this.totalPages = Math.ceil(this.totalItems / this.limit);
         this.updatePageRange();
       });
