@@ -14,6 +14,7 @@ export class PaymentListComponent {
   @Input() currentPage: number = 1;
   @Input() totalPages: number = 1;
   @Input() pageRange: number[] = [];
+  @Input() isLoading: boolean = false;
   selectedPayment: any = null;
   isDetailModalOpen: boolean = false;
   isEditModalOpen: boolean = false;
