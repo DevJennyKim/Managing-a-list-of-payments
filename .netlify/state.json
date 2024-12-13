@@ -1,0 +1,20 @@
+{
+	"geolocation": {
+		"data": {
+			"city": "Calgary",
+			"country": {
+				"code": "CA",
+				"name": "Canada"
+			},
+			"subdivision": {
+				"code": "AB",
+				"name": "Alberta"
+			},
+			"timezone": "America/Edmonton",
+			"latitude": 50.8476,
+			"longitude": -114.1958,
+			"postalCode": "T2J"
+		},
+		"timestamp": 1733946192648
+	}
+}

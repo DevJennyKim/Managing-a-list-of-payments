@@ -1,6 +1,13 @@
+@use "@angular/material" as mat;
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@include mat.progress-spinner-overrides(
+  (
+    active-indicator-color: white,
+  )
+);
 
 .active {
   padding-bottom: 5px;

@@ -21,6 +21,7 @@ export class MainPageComponent implements OnInit {
   searchTerm: string = '';
   statusFilter: string = '';
   filteredPayments: PaymentRecord[] = [];
+  isLoading: boolean = false;
 
   constructor(private apiService: ApiService, private ngZone: NgZone) {}
 
@@ -30,6 +31,8 @@ export class MainPageComponent implements OnInit {
   }
 
   fetchPayments(): void {
+    this.isLoading = true;
+
     this.apiService
       .getPaymentRecord(
         this.currentPage,
@@ -44,6 +47,8 @@ export class MainPageComponent implements OnInit {
 
         this.totalPages = Math.ceil(this.totalItems / this.limit);
         this.updatePageRange();
+
+        this.isLoading = false;
       });
   }
 

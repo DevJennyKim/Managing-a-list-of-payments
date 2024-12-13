@@ -7,11 +7,13 @@
   >
     ></pay-search
   >
+
   <pay-payment-list
     [payments]="payments"
     [currentPage]="currentPage"
     [totalPages]="totalPages"
     [pageRange]="pageRange"
+    [isLoading]="isLoading"
     (pageChanged)="onPageChanged($event)"
     (prevPage)="goToPrevious()"
     (nextPage)="goToNext()"

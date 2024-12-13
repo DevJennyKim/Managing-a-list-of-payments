@@ -22,12 +22,11 @@ import {
 import { InputFieldComponent } from './components/input-field/input-field.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-import { MatOptionModule } from '@angular/material/core';
 import { ToastrModule } from 'ngx-toastr';
-
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FormatCurrencyPipe } from './shared/format-currency.pipe';
 import { DatePipe } from '@angular/common';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,8 +50,7 @@ import { DatePipe } from '@angular/common';
     MatTableModule,
     NgSelectModule,
     MatFormFieldModule,
-    MatSelectModule,
-    MatOptionModule,
+    MatProgressSpinnerModule,
     ToastrModule.forRoot({
       timeOut: 3000,
       positionClass: 'toast-bottom-right',

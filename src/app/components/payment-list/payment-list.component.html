@@ -100,6 +100,15 @@
     ></tr>
   </table>
 </div>
+
+<div *ngIf="isLoading" class="list__loading">
+  <mat-progress-spinner
+    [diameter]="70"
+    mode="indeterminate"
+  ></mat-progress-spinner>
+  <p class="text-white">Loading...</p>
+</div>
+
 <pay-payment-details
   [payment]="selectedPayment"
   [isOpen]="isDetailModalOpen"
@@ -120,6 +129,13 @@
     class="border p-4 mb-4 my-5 rounded-lg shadow-md bg-white hover:bg-gray-100 hover:shadow-lg transition duration-300 ease-in-out cursor-pointer"
     (click)="openDetailModal(payment)"
   >
+    <div *ngIf="isLoading" class="list__loading">
+      <mat-progress-spinner [diameter]="70" mode="indeterminate">
+      </mat-progress-spinner>
+
+      <p class="text-white">Loading...</p>
+    </div>
+
     <h3 class="text-xl font-semibold">
       {{ payment.payee_first_name }} {{ payment.payee_last_name }}
     </h3>
@@ -186,7 +202,7 @@
     type="button"
     *ngFor="let page of pageRange"
     class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-200 disabled:opacity-50"
-    [class.bg-gray-400]="currentPage === page"
+    [class.bg-stone-200]="currentPage === page"
     [class.text-black]="currentPage === page"
     (click)="onPageChanged(page)"
   >
