@@ -18,7 +18,7 @@
     class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
     [ngClass]="{ 'border-red-500': control.touched && control.invalid }"
   >
-    <option [value]="" disabled selected hidden>{{ placeholder }}</option>
+    <option [value]="" disabled selected>{{ placeholder }}</option>
     <option *ngFor="let item of items" [value]="item.name">
       {{ item.name }}
     </option>
